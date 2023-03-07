@@ -6,7 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
+from utilizadores.models import Pessoa,Docente
 
 class Campus(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
@@ -39,14 +39,6 @@ class Curso(models.Model):
 
     class Meta:
         db_table = 'curso'
-
-
-class Docente(models.Model):
-    pessoaid = models.OneToOneField('Pessoa', models.DO_NOTHING, db_column='PessoaID', primary_key=True)  # Field name made lowercase.
-
-    class Meta:
-        db_table = 'docente'
-
 
 class DocenteUc(models.Model):
     docentepessoaid = models.OneToOneField(Docente, models.DO_NOTHING, db_column='DocentePessoaID', primary_key=True)  # Field name made lowercase.
@@ -95,11 +87,6 @@ class Estadouc(models.Model):
         unique_together = (('id', 'ucid'),)
 
 
-class Funcionario(models.Model):
-    pessoaid = models.ForeignKey('Pessoa', models.DO_NOTHING, db_column='PessoaID')  # Field name made lowercase.
-
-    class Meta:
-        db_table = 'funcionario'
 
 
 
@@ -179,34 +166,6 @@ class PedidoDeUc(models.Model):
         db_table = 'pedido_de_uc'
 
 
-class Pessoa(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    ucid = models.IntegerField(db_column='UCID', blank=True, null=True)  # Field name made lowercase.
-    #idpedidoid22 = models.ForeignKey(Pedido, models.DO_NOTHING, db_column='PedidoID22', blank=True, null=True)  # Field name made lowercase.
-    #pedidoid2 = models.ForeignKey(Pedido, models.DO_NOTHING, db_column='PedidoID2', blank=True, null=True)  # Field name made lowercase.
-    nome = models.CharField(db_column='Nome', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    sexo = models.CharField(db_column='Sexo', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    data_nascimento = models.CharField(db_column='Data_Nascimento', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    ativo = models.TextField(db_column='Ativo')  # Field name made lowercase. This field type is a guess.
-    nacionalidade = models.IntegerField(db_column='Nacionalidade')  # Field name made lowercase.
-    data_emissao_identificacao = models.CharField(db_column='Data_emissao_identificacao', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    data_validade_identificacao = models.CharField(db_column='Data_validade_Identificacao', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    nif = models.IntegerField(db_column='NIF')  # Field name made lowercase.
-    pais_fiscal = models.IntegerField(db_column='Pais_Fiscal')  # Field name made lowercase.
-    tipo_identificacao = models.IntegerField(db_column='Tipo_Identificacao')  # Field name made lowercase.
-    digito_verificacaoo = models.SmallIntegerField(db_column='Digito_verificacaoo')  # Field name made lowercase.
-    identificacao = models.CharField(db_column='Identificacao', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    nfunc = models.IntegerField(db_column='NFunc', blank=True, null=True)  # Field name made lowercase.
-    codigo_docente = models.IntegerField(db_column='Codigo_Docente', blank=True, null=True)  # Field name made lowercase.
-    departamento_docente = models.CharField(db_column='Departamento_Docente', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    num_individuo = models.IntegerField(db_column='Num_Individuo', blank=True, null=True)  # Field name made lowercase.
-    arquivo = models.IntegerField(db_column='Arquivo', blank=True, null=True)  # Field name made lowercase.
-    discriminator = models.CharField(db_column='Discriminator', max_length=255)  # Field name made lowercase.
-
-    class Meta:
-        db_table = 'pessoa'
-    def __str__(self):
-        return self.nome
 
 class TipoSala(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
