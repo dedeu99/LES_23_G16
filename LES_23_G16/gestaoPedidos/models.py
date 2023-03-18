@@ -118,6 +118,19 @@ class Pedido(models.Model):
     docentepessoaid = models.ForeignKey(Docente, models.DO_NOTHING, db_column='DocentePessoaID')  # Field name made lowercase.
     datecreation = models.CharField(db_column='DateCreation', max_length=255)  # Field name made lowercase.
     datevalidation = models.CharField(db_column='DateValidation', max_length=255)  # Field name made lowercase.
+    #dataAlvo : data em que entra em vigor
+
+    def get_tipo_pedido(self):
+        if PedidoHorario.objects.filter(pedidoid=self.id).exists():
+            return 'Horário'
+        if Outros.objects.filter(pedidoid=self.id).exists():
+            return 'Horário'
+        if PedidoSala.objects.filter(pedidoid=self.id).exists():
+            return 'Sala'
+        if PedidoUc.objects.filter(pedidoid=self.id).exists():
+            return 'Uc'
+        else:
+            return 'aaa'
 
     class Meta:
         managed = False

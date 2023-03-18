@@ -81,13 +81,13 @@
         <nav aria-label="breadcrumbs" class="breadcrumb">
             <ul>
                 <li><a href="{% url 'home' %}">Início</a></li>
-                <li class="is-active"><a>Utilizadores</a>
+                <li class="is-active"><a>Pedidos</a>
                 </li>
             </ul>
         </nav>
         <a>
             <button type="button" class="button is-success is-outlined" style="margin-bottom: 1rem;"><span
-                    class="icon is-small"><i class="mdi mdi-plus"></i></span> <span>Adicionar Utilizador</span>
+                    class="icon is-small"><i class="mdi mdi-plus"></i></span> <span>Adicionar Pedido</span>
             </button>
         </a>
         {% render_table table 'gestaoPedidos/consultar_pedidos_tabela.html' %}

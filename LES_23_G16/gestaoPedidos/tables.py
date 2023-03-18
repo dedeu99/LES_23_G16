@@ -1,27 +1,34 @@
-import django_tables2 as django_tables
+import django_tables2 as tables
 from .models import Pedido
 from django.utils.html import format_html
 from django.urls import reverse
 
 
-class PedidosTable(django_tables.Table):
+class PedidosTable(tables.Table):
 
-    id = django_tables.Column(
-        empty_values=(), order_by=("ID"))#, order_by=("first_name", "last_name"))
-    estado = django_tables.Column(
-        'Estado')
-    
+    id = tables.Column(order_by='id',verbose_name='Id')
+    tipo = tables.Column(accessor='get_tipo_pedido',verbose_name='Tipo do pedido')
+    estadoid = tables.Column(accessor='estadoid.descricao',verbose_name='Estado',orderable=True)
+    funcionariopessoaid = tables.Column(accessor='funcionariopessoaid.pessoaid.nome',verbose_name='Funcionário',orderable=True)
+    docentepessoaid = tables.Column(accessor='docentepessoaid.pessoaid.nome',verbose_name='Docente')
+    datevalidation = tables.Column(verbose_name='Data Validação')
+    datecreation = tables.Column(verbose_name='Data Criação')
+
     class Meta:
         model = Pedido
-        #sequence = ('ID', 'EstadoID')
-        fields = ("ID","EstadoID", )
+        sequence = ( 'id','tipo','estadoid','funcionariopessoaid','docentepessoaid','datevalidation','datecreation')
+        #exclude = ('datecreation', )
+        #fields = ['id','tipo','estadoid','funcionariopessoaid','docentepessoaid','datevalidation','datecreation']
 
-    def before_render(self, request):
-        self.columns.hide('id')
-        self.columns.hide('estado')
+    #def before_render(self, request):
+        #self.columns.hide('id')
+        #self.columns.hide('estado')
 
-    def render_id(self, record):
-        return f"{record.ID}"
+#    render_id(self, record):
+#        return f"{record.ID}"
 
-    def render_estado(self, record):
-        return f"{record.EstadoID}"
+    #def order(self, queryset, is_descending):
+    #        queryset = queryset.annotate(
+    #        amount=F("shirts") + F("pants")
+    #    ).order_by(("-" if is_descending else "") + "amount")
+    #    return (queryset, True)

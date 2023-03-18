@@ -15,10 +15,10 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import pedidoHorarios
+from .views import consultar_pedidos
 
 app_name = 'gestaoPedidos'
 
 urlpatterns = [
-	path("pedidoHorarios",pedidoHorarios, name="pedidoHorarios")
+	path("consultar_pedidos",consultar_pedidos.as_view(), name="consultar_pedidos")
 ]
