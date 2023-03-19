@@ -6,14 +6,22 @@
 <table>
     <tbody>
         <tr>
-            <td><strong>ID:</strong></td>
+            <td><strong>ID</strong></td>
             <td>{{row.record.id}}</td>
         </tr>
         <tr>
             <td><strong>Estado:</strong></td>
             <td>{{row.record.estadoid.id|get_descricao_estado}}</td>
         </tr>
+        <tr>
+            <td><strong>Tipo:</strong></td>
+            <td>{{row.cells.tipo}}</td>
+        </tr>
+        <tr>
+            <td><a href={{row.cells.tipo|get_url_from_tipoPedido}}><button  class="button is-info is-outlined"><span>Consultar</span></button></a></td>
+        </tr>
     </tbody>
+    
 </table>
 
 {% endblock details_content %}
