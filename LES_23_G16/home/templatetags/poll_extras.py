@@ -1,5 +1,5 @@
 from django import template
-from gestaoPedidos.models import Pedido,Estado
+from gestaoPedidos.models import Pedido,Estado,Funcionario,Docente
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 register = template.Library()
@@ -22,3 +22,7 @@ def get_url_from_tipoPedido(tipo):
     if tipo == "Outros":
         return "/criar_pedido_outros"
     return "/"
+
+@register.filter(name='isFuncionario') 
+def isFuncionario(userid):
+    return Funcionario.objects.filter(id=userid).exists()

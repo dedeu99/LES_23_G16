@@ -21,4 +21,6 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
     path('', include('gestaoPedidos.urls')),
 	path('',views.home, name="home"),
+    path('', include("django.contrib.auth.urls")),
+    path('', include("utilizadores.urls")),
 ]

@@ -7,7 +7,7 @@ from .filters import PedidosFilter
 from .models import Pedido
 # Create your views here.
 
-numero_items_por_pagina=15
+numero_items_por_pagina=10
 
 class consultar_pedidos(SingleTableMixin, FilterView):
     ''' Consultar todos os pedidos com as funcionalidades dos filtros '''
