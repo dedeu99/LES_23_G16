@@ -22,7 +22,6 @@
         <div class="navbar-dropdown">
           <a href="{% url 'gestaoPedidos:consultar_pedidos' %}" class="navbar-item">Consultar todos os pedidos</a>
           <a href="{% url 'gestaoPedidos:criar_pedido_horario' %}" class="navbar-item">Criar Pedido de Horário</a>
-          
         </div>
       </div>
     </div>  
@@ -31,29 +30,23 @@
     <div class="navbar-item">
       {% if user.is_authenticated %}
       <a href="{% url 'logout' %}">
-        <div type="button" class="button">
+        <button type="button" class="button">
           <span class="icon is-small">
             <i class="mdi mdi-login-variant"></i>
           </span>
           <span>Sair</span>
-        </div>
+        </button>
       </a>
-      {% else %}
-
-
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <a href="{% url 'logout' %}">
-              <bottom class="button is-primary">
-                <strong>Registar</strong>
-            </a>
-            </a>
-          </div>
-        </div>
-      </div>
-
-
+    </div>
+    {% else %}
+    <div class="navbar-item">
+      <a href="{% url 'logout' %}">
+        <button type="button" class="button is-primary">
+          <span><strong>Registar</strong></span>
+        </button>
+      </a>
+    </div>
+    <div class="navbar-item">
       <a href="{% url 'login' %}">
         <div type="button" class="button">
           <span class="icon is-small">
@@ -62,8 +55,9 @@
           <span>Entrar</span>
         </div>
       </a>
-      {% endif %}
     </div>
+    {% endif %}
+  </div>
 </nav>
 
 

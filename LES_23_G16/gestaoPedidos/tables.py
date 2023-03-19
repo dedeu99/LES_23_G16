@@ -1,8 +1,5 @@
 import django_tables2 as tables
 from .models import Pedido,PedidoHorario,Outros,PedidoSala,PedidoUc
-from django.utils.html import format_html
-from django.urls import reverse
-from django.db.models import Count
 
 class PedidosTable(tables.Table):
 
@@ -29,9 +26,25 @@ class PedidosTable(tables.Table):
         if PedidoUc.objects.filter(pedidoid=record.id).exists():
             return 'Uc'
         return ''
+    
+    #def before_render(self, request):
+    #    self.table_data = Pedido.objects.filter(funcionariopessoaid = request.user.id)
+    #    self.rows.data.
+        #if request.user.has_perm('foo.delete_bar'):
+        #    self.rows.sh
+        #else:
+        #    self.columns.show('country')
     #def order_tipo(self, queryset, is_descending):
   
     #    queryset = queryset.annotate(
     #        tipo= 
     #    ).order_by(("-" if is_descending else "") + "tipo")
     #    return (queryset, True)
+    #def dispatch(self, request, *args, **kwargs):
+    #    """Updates the keyword args to always have 'foo' with the value 'bar'"""
+    #    if request.:
+    #    # Block requests that attempt to provide their own foo value
+    #        return HttpResponse(status_code=400)
+    #    kwargs.update({'foo': 'bar'}) # inject the foo value
+    #    # now process dispatch as it otherwise normally would
+    #    return super().dispatch(request, *args, **kwargs)
