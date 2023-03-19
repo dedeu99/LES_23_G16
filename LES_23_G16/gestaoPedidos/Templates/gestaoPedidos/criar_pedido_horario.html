@@ -9,7 +9,7 @@
 {% block content %}
 
     <div style="padding: 3rem 2vw 1rem;">
-        <form method="post" class="steps" id="stepsDemo">
+        <form action="/" method="post" class="steps is-success">
             <div class="step-item is-success is-active" data-step-id="0">
                 <div class="step-marker">
                     <span class="icon">
@@ -20,7 +20,7 @@
                     <p class="step-title">Dados do pedido</p>
                 </div>
             </div>
-            <div class="step-item" data-step-id="1">
+            <div class="step-item is-success is-active" data-step-id="1">
                 <div class="step-marker">
                     <span class="icon">
                         <i class="mdi mdi-circle-edit-outline mdi-24px"></i>
@@ -30,7 +30,7 @@
                     <p class="step-title">Dados do horário</p>
                 </div>
             </div>
-            <div class="step-item" data-step-id="2">
+            <div class="step-item is-success is-active" data-step-id="2">
                 <div class="step-marker">
                     <span class="icon">
                         <i class="mdi mdi-check"></i>
@@ -130,7 +130,7 @@
                                 <label class="label">CLicar no botão para confirmar e criar o pedido</label>
                                 <div class="control is-clearfix" style="margin-top:2%;text-align:center;position:center;">
                                     <button type="submit" class="button is-success is-outlined" >
-                                        <span>Confirmar</span>
+                                        <span>Submeter</span>
                                     </button>
                                 </div>
                             </div>
@@ -157,14 +157,8 @@
 {% endblock content %}
 {% block scripts %}
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script>
-    function voltar() {
-        location.href="/"
-    }
-    //bulmaSteps.attach();
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bulma-steps@2.2.1/dist/js/bulma-steps.js"></script>
 <script>
-    var steps = bulmaSteps.attach();
+    bulmaSteps.attach();
 </script>
 {% endblock scripts %}
