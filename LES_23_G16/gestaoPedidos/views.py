@@ -38,3 +38,8 @@ class consultar_pedidos(SingleTableMixin, FilterView):
     #     context = self.get_context_data(**kwargs)
     #     context['table'] = data
     #     return self.render_to_response(context)
+
+
+def criar_pedido_horario(request):
+    return render(request=request,
+                template_name="gestaoPedidos/criar_pedido_horario.html")
