@@ -5,7 +5,7 @@
 
 {% block title %}- Consultar Pedidos
 {% endblock title %}
-
+{% block titulo %}Listagem de pedidos{% endblock titulo %}
 {% block content %}
 <div class="columns">
     <div class="column is-3">
@@ -85,9 +85,9 @@
                 </li>
             </ul>
         </nav>
-        <a>
+        <a href="criar_pedido_horario">
             <button type="button" class="button is-success is-outlined" style="margin-bottom: 1rem;"><span
-                    class="icon is-small"><i class="mdi mdi-plus"></i></span> <span>Adicionar Pedido</span>
+                    class="icon is-small"><i class="mdi mdi-plus"></i></span> <span>Criar Pedido</span>
             </button>
         </a>
         {% render_table table 'gestaoPedidos/consultar_pedidos_tabela.html' %}

@@ -1,24 +1,41 @@
 {% extends 'gestaoPedidos/bulma_table_details.html' %}
 {% load poll_extras %}
-
 {% block details_content %}
 
 <table>
+    <!--td>{{row.record.estadoid.id|get_descricao_estado}}</td!-->
     <tbody>
         <tr>
-            <td><strong>ID</strong></td>
-            <td>{{row.record.id}}</td>
+            <td><strong>Assunto</strong></td>
+            <td>{{row.record.assunto}}</td>
         </tr>
         <tr>
-            <td><strong>Estado:</strong></td>
-            <td>{{row.record.estadoid.id|get_descricao_estado}}</td>
+            <td><strong>Descricao:</strong></td>
+            <td>{{row.record.descricao}}</td>
+        </tr>
+    {%if row.cells.tipo == "Horário"%}
+        <tr>
+            <td><strong>Tipo de Alteracao:</strong></td>
+            <td>{{row.record.id|get_tipo_alteracao}}</td>
         </tr>
         <tr>
-            <td><strong>Tipo:</strong></td>
-            <td>{{row.cells.tipo}}</td>
+            <td><strong>Unidade Curricular:</strong></td>
+            <td>{{row.record.id|get_unidade_curricular}}</td>
         </tr>
         <tr>
-            <td><a href={{row.cells.tipo|get_url_from_tipoPedido}}><button  class="button is-info is-outlined"><span>Consultar</span></button></a></td>
+        </tr>
+    {% endif %}
+        <tr>
+            <td><a href={{row.cells.tipo|get_alter_url_from_tipoPedido:row.record.id}}><button  class="button is-info is-outlined"><span>Alterar</span></button></a></td>
+            <form method="post" action={{row.cells.tipo|get_delete_url_from_tipoPedido:row.record.id}}>
+                {% csrf_token %}
+                <input type=hidden value={{row.record.id}} name="id"></input>
+                <td>
+                    <button  class="button is-danger is-outlined">
+                        <span>Apagar</span>
+                    </button>
+                </td>
+            </form>
         </tr>
     </tbody>
     

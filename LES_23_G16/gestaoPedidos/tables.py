@@ -13,8 +13,8 @@ class PedidosTable(tables.Table):
 
     class Meta:
         model = Pedido
-        sequence = ( 'id','tipo','estadoid','funcionariopessoaid','docentepessoaid','datevalidation','datecreation',)
-        fields = ('id','tipo','estadoid','funcionariopessoaid','docentepessoaid','datevalidation','datecreation',)
+        sequence = ( 'id','tipo','estadoid','funcionariopessoaid','docentepessoaid','datevalidation','datecreation','dataAlvo')
+        fields = ('id','tipo','estadoid','funcionariopessoaid','docentepessoaid','datevalidation','datecreation','dataAlvo')
 
     def render_tipo(self,record):
         if PedidoHorario.objects.filter(pedidoid=record.id).exists():
@@ -25,7 +25,7 @@ class PedidosTable(tables.Table):
             return 'Sala'
         if PedidoUc.objects.filter(pedidoid=record.id).exists():
             return 'Uc'
-        return ''
+        return 'ERRO'
     
     #def before_render(self, request):
     #    self.table_data = Pedido.objects.filter(funcionariopessoaid = request.user.id)

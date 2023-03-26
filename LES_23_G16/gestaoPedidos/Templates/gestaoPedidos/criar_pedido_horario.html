@@ -1,15 +1,23 @@
-
 {% extends 'home/index.html' %}
-
-
-
 {% block title %}- Criar Pedido de Horário{% endblock title %}
 
-
 {% block content %}
-
+{% if pedidoform.errors %}
+    {% for field in pedidoform %}
+        {% for error in field.errors %}
+            <p> {{field.label}} - {{ error }} </p>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+{% if horarioForm.errors %}
+    {% for field in horarioForm %}
+        {% for error in field.errors %}
+            <p> {{field.label}} - {{ error }} </p>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
     <div style="padding: 3rem 2vw 1rem;">
-        <form action="/" method="post" class="steps is-success">
+        <form action="#" method="post" class="steps is-success">
             <div class="step-item is-success is-active" data-step-id="0">
                 <div class="step-marker">
                     <span class="icon">
@@ -45,19 +53,21 @@
             <div class="steps-content">
                 <div class="step-content is-active">
                     <div class="columns">
-                        <div class="column">
+                        <div class="column level-left">
                             <div class="field">
-                                <label class="label">Nome Próprio</label>
+                                <label class="label">{{pedidoform.dataAlvo.label_tag}}</label>
                                 <div class="control is-clearfix">
-                                    <input name="first_name" class="input" id="id_first_name" value="{{form.first_name.value|default_if_none:"" }}" style="" type="text" maxlength="255">
+                                    {{pedidoform.dataAlvo}}
                                 </div>
                             </div>
                         </div>
-                        <div class="column">
-                            <div class="field">
-                                <label class="label">Apelido</label>
-                                <div class="control is-clearfix">
-                                    <input name="last_name"class="input" id="id_last_name" style="" value="{{form.last_name.value|default_if_none:"" }}" type="text" maxlength="255">
+                        <div class="column level-right">
+                            <div class="level-item">
+                                <div class="field">
+                                    <label class="label">{{pedidoform.estadoid.label_tag}}</label>
+                                    <div class="control is-clearfix select">
+                                        {{pedidoform.estadoid}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -66,25 +76,20 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label">Username</label>
+                                <label class="label">{{pedidoform.assunto.label_tag}}</label>
                                 <div class="control is-clearfix">
-                                    <input  name="username" value="{{form.username.value|default_if_none:""}}" class="input"id="id_username" style="" type="text" maxlength="255"> 
+                                    {{pedidoform.assunto}}
                                 </div>
                             </div>
                         </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label">Email</label>
+                                <label class="label">{{pedidoform.descricao.label_tag}}</label>
                                 <div class="control is-clearfix">
-                                    <input class="input" name="email"id="id_email"value="{{form.email.value|default_if_none:"" }}" type="text" style="" maxlength="255"> <!----> <!----> <!---->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="field">
-                                <label class="label">Contacto</label>
-                                <div class="control is-clearfix">
-                                    <input name="contacto" class="input" id="id_contacto"  value="{{form.contacto.value |default_if_none:"" }}"  style="" type="text" maxlength="255">
+                                    {{pedidoform.descricao}}
                                 </div>
                             </div>
                         </div>
@@ -95,17 +100,9 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label">Hora</label>
+                                <label class="label">{{horarioForm.motivopedido.label_tag}}</label>
                                 <div class="control is-clearfix">
-                                    <input name="first_name" class="input" id="id_first_name" value="{{form.first_name.value|default_if_none:"" }}" style="" type="text" maxlength="255">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="field">
-                                <label class="label">Dia da semana</label>
-                                <div class="control is-clearfix">
-                                    <input name="last_name"class="input" id="id_last_name" style="" value="{{form.last_name.value|default_if_none:"" }}" type="text" maxlength="255">
+                                    {{horarioForm.motivopedido}}
                                 </div>
                             </div>
                         </div>
@@ -114,13 +111,59 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label">Descrição</label>
+                                <label class="label">{{horarioForm.tipoalteracaoid.label_tag}}</label>
                                 <div class="control is-clearfix">
-                                    <input  name="username" value="{{form.username.value|default_if_none:""}}" class="input"id="id_username" style="" type="text" maxlength="255"> 
+                                    {{horarioForm.tipoalteracaoid}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{horarioForm.unidadec.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{horarioForm.unidadec}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{horarioForm.turma.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{horarioForm.turma}}
                                 </div>
                             </div>
                         </div>
                         <hr>
+                    </div>
+                    <div class="columns">
+                        <div data-v-136e9626="" class="b-table">
+                            <div class="field table-mobile-sort">
+                                <div class="field has-addons">
+                                     <div class="control"></div></div></div> <!----> <div class="table-wrapper has-mobile-cards"><table class="table is-striped is-hoverable"><thead><tr><!----> <!----> <th class="is-current-sort is-sortable"><div class="th-wrap">Horário <span class="icon is-small"><i class="mdi mdi-menu-up"></i></span></div></th><th class="is-sortable"><div class="th-wrap">Duração <span class="icon is-small is-invisible"><i class="mdi mdi-menu-up"></i></span></div></th><th class=""><div class="th-wrap">Vagas <!----></div></th><th class=""><div class="th-wrap">Colaboradores <!----></div></th><th class=""><div class="th-wrap">Requerimentos Espaço <!----></div></th><th class=""><div class="th-wrap is-centered">Ações <!----></div></th> <!----></tr> <!----> <!----></thead> <tbody><tr draggable="false" class=""><!----> <!----> <td data-v-136e9626="" data-label="Horário" class="">
+                09:30 -
+                10:30
+              </td> <td data-v-136e9626="" data-label="Duração" class="">
+                60 min
+              </td> <td data-v-136e9626="" data-label="Vagas" class="">
+                25
+              </td> <td data-v-136e9626="" data-label="Colaboradores" class="">
+                1
+              </td> <td data-v-136e9626="" data-label="Requerimentos Espaço" class=""><ul data-v-136e9626="" class="requerimentos"><li data-v-136e9626="">
+                    Sala
+                  </li><li data-v-136e9626="">
+                    Computadores
+                  </li></ul></td> <td data-v-136e9626="" data-label="Ações" class="has-text-centered"><a data-v-136e9626=""><span data-v-136e9626="" class="icon has-text-danger"><i class="mdi mdi-close-box mdi-24px"></i></span></a></td> <!----></tr> <!----> <!----><tr draggable="false" class=""><!----> <!----> <td data-v-136e9626="" data-label="Horário" class="">
+                11:30 -
+                12:00
+              </td> <td data-v-136e9626="" data-label="Duração" class="">
+                30 min
+              </td> <td data-v-136e9626="" data-label="Vagas" class="">
+                15
+              </td> <td data-v-136e9626="" data-label="Colaboradores" class="">
+                0
+              </td> <td data-v-136e9626="" data-label="Requerimentos Espaço" class=""><ul data-v-136e9626="" class="requerimentos"><li data-v-136e9626="">
+                    Sala
+                  </li></ul></td> <td data-v-136e9626="" data-label="Ações" class="has-text-centered"><a data-v-136e9626=""><span data-v-136e9626="" class="icon has-text-danger"><i class="mdi mdi-close-box mdi-24px"></i></span></a></td> <!----></tr> <!----> <!----></tbody> <!----></table></div> <!----></div>
                     </div>
                 </div>
                 <div class="step-content is-active">
@@ -158,6 +201,7 @@
 {% block scripts %}
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bulma-steps@2.2.1/dist/js/bulma-steps.js"></script>
+<script src="bulma-calendar/dist/js/bulma-calendar.min.js"></script>
 <script>
     bulmaSteps.attach();
 </script>
