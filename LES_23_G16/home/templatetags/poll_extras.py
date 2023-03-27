@@ -1,10 +1,14 @@
 from django import template
-from gestaoPedidos.models import Pedido,Estado,Funcionario,Docente,PedidoHorario
+from gestaoPedidos.models import Pessoa,Estado,Funcionario,Docente,PedidoHorario
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 register = template.Library()
 
 
+@register.filter(name='get_nome') 
+def get_nome(id):
+    pessoa = Pessoa.objects.get(id=id)
+    return pessoa.nome
 @register.filter(name='get_descricao_estado') 
 def get_descricao_estado(id):
     estado = Estado.objects.get(id=id)
@@ -25,8 +29,10 @@ def get_create_url_from_tipoPedido(tipo):
 
 @register.filter(name='isFuncionario') 
 def isFuncionario(userid):
-    return Funcionario.objects.filter(id=userid).exists()
-
+    pessoa=Pessoa.objects.get(id=userid)
+    if pessoa:
+        return Funcionario.objects.filter(pessoaid=pessoa.id).exists()
+    
 @register.filter(name='get_delete_url_from_tipoPedido') 
 def get_delete_url_from_tipoPedido(tipo,id):
     if tipo == "Horário":

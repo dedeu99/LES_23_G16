@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load poll_extras %}
 <nav id="main-navbar" class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item logo" href="/">
@@ -27,8 +27,22 @@
     </div>  
   </div>
   <div class="navbar-end">
+    {% if user.is_authenticated %}
     <div class="navbar-item">
-      {% if user.is_authenticated %}
+      Username: {{ user.username}}
+    </div>
+    <div class="navbar-item">
+      Nome: {{ user.id|get_nome}}
+    </div>
+    <div class="navbar-item">
+      Tipo:
+      {% if user.id|isFuncionario %}
+      Funcionário
+      {% else%}
+      Docente
+      {% endif%}
+    </div>
+    <div class="navbar-item">
       <a href="{% url 'logout' %}">
         <button type="button" class="button">
           <span class="icon is-small">

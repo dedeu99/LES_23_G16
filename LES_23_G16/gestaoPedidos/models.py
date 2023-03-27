@@ -200,7 +200,7 @@ class Pessoa(models.Model):
     tipo_identificacao = models.IntegerField(db_column='Tipo_Identificacao')  # Field name made lowercase.
     digito_verificacao = models.SmallIntegerField(db_column='Digito_verificacao')  # Field name made lowercase.
     identificacao = models.CharField(db_column='Identificacao', max_length=255)  # Field name made lowercase.
-    #user = models.ForeignKey(User, on_delete=models.DO_NOTHING, db_column='user',default=None, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, db_column='user',default=None, blank=True, null=True)
     class Meta:
         managed = True
         db_table = 'pessoa'

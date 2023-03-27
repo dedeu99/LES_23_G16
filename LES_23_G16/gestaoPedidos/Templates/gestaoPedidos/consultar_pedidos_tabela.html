@@ -31,14 +31,19 @@
                 {% csrf_token %}
                 <input type=hidden value={{row.record.id}} name="id"></input>
                 <td>
-                    <button  class="button is-danger is-outlined">
+                    {% if user.id|isFuncionario %}
+                    <button class="button is-success is-outlined">
+                        <span>Validar</span>
+                    </button>    
+                    {% else %}
+                    <button class="button is-danger is-outlined">
                         <span>Apagar</span>
                     </button>
+                    {% endif %}
                 </td>
             </form>
         </tr>
     </tbody>
-    
 </table>
 
 {% endblock details_content %}
