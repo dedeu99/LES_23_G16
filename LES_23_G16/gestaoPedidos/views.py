@@ -11,6 +11,7 @@ from .forms import PedidoForm,PedidoHorarioForm
 from django.shortcuts import HttpResponse
 import datetime
 from django.views.decorators.http import require_POST
+
 # Create your views here.
 
 numero_items_por_pagina=10
@@ -65,6 +66,7 @@ def criar_pedido_horario(request):
             novo_pedido_horario.pedidoid = novo_pedido
             novo_pedido.save()
             novo_pedido_horario.save()
+            messages.success(request, 'Pedido de Horário criado com sucesso')
             return redirect('gestaoPedidos:consultar_pedidos')
         else:
             for error in pform.errors:
@@ -102,6 +104,7 @@ def alterar_pedido_horario(request):
             #novo_pedido_horario.pedidoid = novo_pedido
             novo_pedido.save()
             novo_pedido_horario.save()
+            messages.success(request, 'Pedido de Horário alterado com sucesso')
             return redirect('gestaoPedidos:consultar_pedidos')
         else:
             for error in pform.errors:
@@ -124,4 +127,5 @@ def apagar_pedido_horario(request):
     pedidohorario=PedidoHorario.objects.get(pedidoid=idpedido)
     pedidohorario.delete()
     pedido.delete()
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    messages.success(request, 'Pedido de Horário apagado com sucesso')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'],)

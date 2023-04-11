@@ -27,7 +27,7 @@
     {% endif %}
         <tr>
             <td><a href={{row.cells.tipo|get_alter_url_from_tipoPedido:row.record.id}}><button  class="button is-info is-outlined"><span>Alterar</span></button></a></td>
-            <form method="post" action={{row.cells.tipo|get_delete_url_from_tipoPedido:row.record.id}}>
+            <form class="js-modal-trigger" data-target="msg"><!--action={#row.cells.tipo|get_delete_url_from_tipoPedido:row.record.id#}-->
                 {% csrf_token %}
                 <input type=hidden value={{row.record.id}} name="id"></input>
                 <td>

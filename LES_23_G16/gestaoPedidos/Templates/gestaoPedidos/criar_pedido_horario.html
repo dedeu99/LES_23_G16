@@ -1,22 +1,43 @@
 {% extends 'home/index.html' %}
 {% block title %}- Criar Pedido de Horário{% endblock title %}
-
-{% block content %}
-{% if pedidoform.errors %}
-    {% for field in pedidoform %}
-        {% for error in field.errors %}
-            <p> {{field.label}} - {{ error }} </p>
-        {% endfor %}
-    {% endfor %}
+{% if pedidoform.errors or horarioForm.errors %}
+    <div style="margin-left:30%;margin-right:30%; margin-top:%">
+        <div style="margin-top:2%;">
+            <article class="message is-danger">
+                <div class="message-body">
+                    <!--p style="text-align: center;"-->
+                        {% if pedidoform.non_field_errors %}
+                            {% for error in pedidoform.non_field_errors %}
+                                <p style="color: #ff0000; text-align:center">{{error}}</p>
+                            {% endfor %}
+                        {% endif %} 
+                        {% if horarioForm.non_field_errors %}
+                            {% for error in horarioForm.non_field_errors %}
+                                <p style="color: #ff0000; text-align:center">{{error}}</p>
+                            {% endfor %}
+                        {% endif %}
+                        {% for error in erros %}
+                            <p style="color: #ff0000; text-align:center">{{error}}</p>
+                        {% endfor %}
+                        {% for field in pedidoform %}
+                            {% for error in field.errors %}
+                                <p style="color: #ff0000;">{{field.label}} - {{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for field in horarioform %}
+                            {% for error in field.errors %}
+                                <p style="color: #ff0000;">{{field.label}} - {{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                    <!--/p-->
+                </div>
+            </article>  
+        </div>
+    </div>
 {% endif %}
-{% if horarioForm.errors %}
-    {% for field in horarioForm %}
-        {% for error in field.errors %}
-            <p> {{field.label}} - {{ error }} </p>
-        {% endfor %}
-    {% endfor %}
-{% endif %}
+{% block content %} 
     <div style="padding: 3rem 2vw 1rem;">
+        
         <form action="#" method="post" class="steps is-success">
             <div class="step-item is-success is-active" data-step-id="0">
                 <div class="step-marker">
@@ -61,16 +82,20 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="column level-right">
                             <div class="level-item">
                                 <div class="field">
+                                    {% if pedidoform.estadoid.value%}
                                     <label class="label">{{pedidoform.estadoid.label_tag}}</label>
                                     <div class="control is-clearfix select">
                                         {{pedidoform.estadoid}}
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
+                        
                         <hr>
                     </div>
                     <div class="columns">
@@ -302,5 +327,7 @@
 <!--script src="bulma-calendar/dist/js/bulma-calendar.min.js"></script-->
 <script>
     bulmaSteps.attach();
+    const obj = document.getElementById("msg");
+    obj.addEventListener('onFinish', ()=>{console.log("Finished")});
 </script>
 {% endblock scripts %}
