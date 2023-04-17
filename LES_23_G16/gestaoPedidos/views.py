@@ -6,8 +6,8 @@ from django_filters.views import FilterView
 from .tables import PedidosTable
 from .filters import PedidosFilter
 #from django.core.paginator import Paginator
-from .models import Pedido,PedidoHorario,Docente,Estado
-from .forms import PedidoForm,PedidoHorarioForm
+from .models import Pedido,PedidoHorario,Docente,Estado, Uc
+from .forms import PedidoForm,PedidoHorarioForm, UcForm
 from django.shortcuts import HttpResponse
 import datetime
 from django.views.decorators.http import require_POST
@@ -25,26 +25,6 @@ class consultar_pedidos(SingleTableMixin, FilterView):
         'per_page': numero_items_por_pagina
     }
 
-    #def dispatch(self, request, *args, **kwargs):
- #       user_check_var = user_check(
- #           request=request, user_profile=[Coordenador, Administrador])
- #       if not user_check_var.get('exists'):
-  #          return user_check_var.get('render')
-    #    return super().dispatch(request, *args, **kwargs)
-
-    #def get_context_data(self, **kwargs):
-    #    context = super(SingleTableMixin, self).get_context_data(**kwargs)
-    #    table = self.get_table(**self.get_table_kwargs())
-    #    table.request = self.request
-    #    table.fixed = True
-    #    context[self.get_context_table_name(table)] = table
-    #    return context
-    
-    #def get(self, request, *args, **kwargs):
-    #     data = Pedido.objects.all()
-    #     context = self.get_context_data(**kwargs)
-    #     context['table'] = data
-    #     return self.render_to_response(context)
 
 
 def criar_pedido_horario(request):
@@ -129,3 +109,93 @@ def apagar_pedido_horario(request):
     pedido.delete()
     messages.success(request, 'Pedido de Horário apagado com sucesso')
     return HttpResponseRedirect(request.META['HTTP_REFERER'],)
+
+def criar_pedido_uc(request):
+    if request.method == "POST":
+        pform = PedidoForm(request.POST, instance=Pedido())
+        ucform = UcForm(request.POST, instance=Uc())
+
+        if pform.is_valid() and ucform.is_valid():
+            novo_pedido = pform.save(commit=False)
+            novo_pedido.datecreation = datetime.datetime.now()
+            novo_pedido.estadoid = Estado.objects.get(id=1)
+            novo_pedido.docentepessoaid = Docente.objects.get(pessoaid=request.user.id)
+
+            nova_uc = ucform.save(commit=False)
+            nova_uc.pedido_ucpedidoid = novo_pedido
+
+            novo_pedido.save()
+            nova_uc.save()
+
+            messages.success(request, 'Pedido de UC criado com sucesso')
+            return redirect('gestaoPedidos:consultar_pedidos')
+        else:
+            for error in pform.errors:
+                messages.error(request, pform.errors[error])
+            return render(request, "gestaoPedidos/criar_pedido_uc.html", context={'pedidoform': pform, 'ucForm': ucform})
+    else:
+        pform = PedidoForm(instance=Pedido())
+        ucform = UcForm(instance=Uc())
+        return render(request, "gestaoPedidos/criar_pedido_uc.html", context={'pedidoform': pform, 'ucForm': ucform})
+
+def alterar_pedido_uc(request):
+    idpedido = request.GET.get('id')
+    pedido = PedidoForm.objects.get(id=idpedido)
+    uc = UcForm.objects.get(pedido_ucpedidoid=idpedido)
+
+    if request.method == "POST":
+        pform = PedidoForm(request.POST, instance=pedido)
+        ucform = UcForm(request.POST, instance=uc)
+
+        if pform.is_valid() and ucform.is_valid():
+            novo_pedido = pform.save(commit=False)
+            novo_pedido.estadoid = Estado.objects.get(id=1)
+
+            nova_uc = ucform.save()
+
+            novo_pedido.save()
+            nova_uc.save()
+
+            messages.success(request, 'Pedido de UC alterado com sucesso')
+            return redirect('gestaoPedidos:consultar_pedidos')
+        else:
+            for error in pform.errors:
+                messages.error(request, pform.errors[error])
+            return render(request, "gestaoPedidos/criar_pedido_uc.html", context={'pedidoform': pform, 'ucForm': ucform})
+    else:
+        pform = PedidoForm(instance=pedido)
+        ucform = UcForm(instance=uc)
+        return render(request, "gestaoPedidos/criar_pedido_uc.html", context={'pedidoform': pform, 'ucForm': ucform})
+    
+@require_POST
+def apagar_pedido_uc(request):
+    idpedido=request.POST.get('id')
+    pedido=Pedido.objects.get(id=idpedido)
+    pedidouc=pedidouc.objects.get(pedidoid=idpedido)
+    pedidouc.delete()
+    pedido.delete()
+    messages.success(request, 'Pedido de UC apagado com sucesso')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'],)
+
+
+
+    #def dispatch(self, request, *args, **kwargs):
+ #       user_check_var = user_check(
+ #           request=request, user_profile=[Coordenador, Administrador])
+ #       if not user_check_var.get('exists'):
+  #          return user_check_var.get('render')
+    #    return super().dispatch(request, *args, **kwargs)
+
+    #def get_context_data(self, **kwargs):
+    #    context = super(SingleTableMixin, self).get_context_data(**kwargs)
+    #    table = self.get_table(**self.get_table_kwargs())
+    #    table.request = self.request
+    #    table.fixed = True
+    #    context[self.get_context_table_name(table)] = table
+    #    return context
+    
+    #def get(self, request, *args, **kwargs):
+    #     data = Pedido.objects.all()
+    #     context = self.get_context_data(**kwargs)
+    #     context['table'] = data
+    #     return self.render_to_response(context)
