@@ -128,6 +128,7 @@ class Pedido(models.Model):
     class Meta:
         managed = True
         db_table = 'pedido'
+        
 
 class PedidoUc(models.Model):
     nome = models.CharField(db_column='Nome', max_length=255)  # Field name made lowercase.
