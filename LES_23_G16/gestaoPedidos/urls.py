@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import consultar_pedidos,criar_pedido_horario,alterar_pedido_horario,apagar_pedido_horario, criar_pedido_outro, alterar_pedido_outro, apagar_pedido_outro, criar_pedido_uc, alterar_pedido_uc, apagar_pedido_uc
+from .views import consultar_pedidos,criar_pedido_horario,alterar_pedido_horario,apagar_pedido_horario,criar_pedido_outro,alterar_pedido_outros,apagar_pedido_outro,criar_pedido_uc,alterar_pedido_uc,apagar_pedido_uc
 
 app_name = 'gestaoPedidos'
 
@@ -25,9 +25,9 @@ urlpatterns = [
     path("alterar_pedido_horario",alterar_pedido_horario, name="alterar_pedido_horario"),
     path("apagar_pedido_horario",apagar_pedido_horario, name="apagar_pedido_horario"),
     path("criar_pedido_outro",criar_pedido_outro, name="criar_pedido_outro"),
-    path("alterar_pedido_outros",alterar_pedido_outro, name="alterar_pedido_outro"),
+    path("alterar_pedido_outros",alterar_pedido_outros, name="alterar_pedido_outros"),
     path("apagar_pedido_outro",apagar_pedido_outro, name="apagar_pedido_outro"),
-    path("criar_pedido_uc", criar_pedido_uc, name="criar_pedido_uc"),
-    path("alterar_pedido_uc",alterar_pedido_horario, name="alterar_pedido_uc"),
-    path("apagar_pedido_uc",apagar_pedido_horario, name="apagar_pedido_uc")
+    path("criar_pedido_uc",criar_pedido_uc, name="criar_pedido_uc"),
+    path("alterar_pedido_uc",alterar_pedido_uc, name="alterar_pedido_uc"),
+    path("apagar_pedido_uc",apagar_pedido_uc, name="apagar_pedido_uc")
 ]

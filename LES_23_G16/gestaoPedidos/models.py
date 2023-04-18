@@ -128,8 +128,6 @@ class Pedido(models.Model):
     class Meta:
         managed = True
         db_table = 'pedido'
-        
-
 class PedidoUc(models.Model):
     nome = models.CharField(db_column='Nome', max_length=255)  # Field name made lowercase.
     curso = models.CharField(db_column='Curso', max_length=255)  # Field name made lowercase.
@@ -143,8 +141,6 @@ class PedidoUc(models.Model):
 class Uc(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     pedido_ucpedidoid = models.ForeignKey(PedidoUc, models.DO_NOTHING, db_column='Pedido_UCPedidoID')  # Field name made lowercase.
-    motivopedido = models.CharField(db_column='MotivoPedido', max_length=255,verbose_name="Motivo do Pedido")  # Field name made lowercase.
-    tipoalteracaoid = models.ForeignKey(Tipoalteracao, models.DO_NOTHING, db_column='TipoAlteracaoID',verbose_name="Tipo de Alteração")  # Field name made lowercase.
     semestrelecionada = models.IntegerField(db_column='SemestreLecionada')  # Field name made lowercase.
     codigo_disciplina = models.IntegerField(db_column='Codigo_disciplina')  # Field name made lowercase.
     nomeuc = models.CharField(db_column='NomeUC', max_length=255)  # Field name made lowercase.

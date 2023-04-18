@@ -7,7 +7,7 @@ from .tables import PedidosTable
 from .filters import PedidosFilter
 #from django.core.paginator import Paginator
 from .models import Pedido,PedidoHorario,Docente,Estado, Outros, Uc
-from .forms import PedidoForm,PedidoHorarioForm, PedidoOutroForm, UcForm
+from .forms import PedidoForm,PedidoHorarioForm, UcForm, PedidoOutroForm
 from django.shortcuts import HttpResponse
 import datetime
 from django.views.decorators.http import require_POST
@@ -24,7 +24,6 @@ class consultar_pedidos(SingleTableMixin, FilterView):
     table_pagination = {
         'per_page': numero_items_por_pagina
     }
-
 
 
 def criar_pedido_horario(request):
@@ -145,7 +144,7 @@ def criar_pedido_outro(request):
     return render(request=request,
                 template_name="gestaoPedidos/criar_pedido_outro.html", context = {'pedidoform': pform,'outroForm':phform})
 
-def alterar_pedido_outro(request):
+def alterar_pedido_outros(request):
         # if this is a POST request we need to process the form data
     idpedido=request.GET.get('id')
     pedido=Pedido.objects.get(id=idpedido)
@@ -159,6 +158,7 @@ def alterar_pedido_outro(request):
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
+            
             novo_pedido = pform.save(commit=False)
             #novo_pedido.datecreation = datetime.datetime.now()
             novo_pedido.estadoid = Estado.objects.get(id=1) #Forçar o estado a criado independentemente do que vem
@@ -192,6 +192,7 @@ def apagar_pedido_outro(request):
     pedido.delete()
     messages.success(request, 'Pedido Outro apagado com sucesso')
     return HttpResponseRedirect(request.META['HTTP_REFERER'],)
+
 def criar_pedido_uc(request):
     if request.method == "POST":
         pform = PedidoForm(request.POST, instance=Pedido())
@@ -248,7 +249,7 @@ def alterar_pedido_uc(request):
         pform = PedidoForm(instance=pedido)
         ucform = UcForm(instance=uc)
         return render(request, "gestaoPedidos/criar_pedido_uc.html", context={'pedidoform': pform, 'ucForm': ucform})
-    
+
 @require_POST
 def apagar_pedido_uc(request):
     idpedido=request.POST.get('id')
@@ -259,9 +260,7 @@ def apagar_pedido_uc(request):
     messages.success(request, 'Pedido de UC apagado com sucesso')
     return HttpResponseRedirect(request.META['HTTP_REFERER'],)
 
-
-
-    #def dispatch(self, request, *args, **kwargs):
+   #def dispatch(self, request, *args, **kwargs):
  #       user_check_var = user_check(
  #           request=request, user_profile=[Coordenador, Administrador])
  #       if not user_check_var.get('exists'):

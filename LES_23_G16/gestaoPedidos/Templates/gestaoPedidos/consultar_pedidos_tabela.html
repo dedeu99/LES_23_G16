@@ -25,7 +25,7 @@
         <tr>
         </tr>
     {% endif %}
-
+       
     {%if row.cells.tipo == "Outros"%}
     <tr>
         <td><a href={{row.cells.tipo|get_alter_url_from_tipoPedido:row.record.id}}><button  class="button is-info is-outlined"><span>Alterar</span></button></a></td>
@@ -48,6 +48,8 @@
         
     </tr>
     {% endif %}
+
+
     {%if row.cells.tipo == "Horário"%}
     <tr>
         <td><a href={{row.cells.tipo|get_alter_url_from_tipoPedido:row.record.id}}><button  class="button is-info is-outlined"><span>Alterar</span></button></a></td>
@@ -70,12 +72,6 @@
         
     </tr>
     {% endif %}
-        
-
-
-
-
-
 
     </tbody>
 </table>
