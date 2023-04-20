@@ -1,3 +1,4 @@
+import smtplib
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib import messages
@@ -11,6 +12,11 @@ from .forms import PedidoForm,PedidoHorarioForm, UcForm, PedidoOutroForm
 from django.shortcuts import HttpResponse,get_object_or_404
 import datetime
 from django.views.decorators.http import require_POST
+from django.core.mail import send_mail, EmailMessage
+from django.urls import reverse
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 
 # Create your views here.
 
@@ -260,19 +266,61 @@ def apagar_pedido_uc(request):
         messages.success(request, 'Pedido de UC apagado com sucesso')
         return HttpResponseRedirect(request.META['HTTP_REFERER'],)
 
+def enviar_email(destinatario, assunto, mensagem, remetente, senha):
+    # configurar o email
+    email = MIMEMultipart()
+    email['From'] = remetente
+    email['To'] = destinatario
+    email['Subject'] = assunto
+    corpo = mensagem
+    email.attach(MIMEText(corpo, 'plain'))
+
+    # enviar o email
+    server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+    server.starttls()
+ # usar o servidor SMTP do Mailtrap
+    server.login(remetente, senha)
+    texto_email = email.as_string()
+    server.sendmail(remetente, destinatario, texto_email)
+    server.quit()
+
 def validar_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)
-    pedido.estadoid = Estado.objects.get(id=2)
-    pedido.save()
+    if(pedido.estadoid != 2):
+        pedido.estadoid = Estado.objects.get(id=2)
+        pedido.save()
+    else:
+        return redirect('gestaoPedidos:consultar_pedidos')
+
+    # Enviar email de confirmação
+    destinatario = 'a68033@ualg.pt'
+    assunto = 'Pedido Validado'
+    mensagem = f'O pedido {pedido_id} foi validado com sucesso.'
+    remetente = 'diogo.raposo@live.com.pt'
+    senha = '#####'
+    enviar_email(destinatario, assunto, mensagem, remetente, senha)
+
     messages.success(request, 'Pedido validado com sucesso')
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return redirect('gestaoPedidos:consultar_pedidos')
 
 def nao_validar_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)
-    pedido.estadoid = Estado.objects.get(id=3)
-    pedido.save()
+    if(pedido.estadoid != 3):
+        pedido.estadoid = Estado.objects.get(id=3)
+        pedido.save()
+    else:
+         return redirect('gestaoPedidos:consultar_pedidos')
+
+    # Enviar email de confirmação
+    destinatario = 'a68033@ualg.pt'
+    assunto = 'Pedido Não Validado'
+    mensagem = f'O pedido {pedido_id} foi não validado com sucesso.'
+    remetente = 'diogo.raposo@live.com.pt'
+    senha = '#####'
+    enviar_email(destinatario, assunto, mensagem, remetente, senha)
+
     messages.success(request, 'Pedido não validado com sucesso')
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return redirect('gestaoPedidos:consultar_pedidos')
 
    #def dispatch(self, request, *args, **kwargs):
  #       user_check_var = user_check(
