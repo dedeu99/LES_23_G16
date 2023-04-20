@@ -20,7 +20,7 @@
           Pedidos
         </a>
         <div class="navbar-dropdown">
-          {% if user.id|isFuncionario %}
+          {% if user and user.id|isFuncionario %}
           <a href="{% url 'gestaoPedidos:consultar_pedidos' %}" class="navbar-item">Consultar todos os pedidos</a>
           {% else %}
           <a href="{% url 'gestaoPedidos:consultar_pedidos' %}" class="navbar-item">Consultar todos os pedidos</a>
