@@ -8,7 +8,7 @@ from .filters import PedidosFilter
 #from django.core.paginator import Paginator
 from .models import Pedido,PedidoHorario,Docente,Estado, Outros, Uc
 from .forms import PedidoForm,PedidoHorarioForm, UcForm, PedidoOutroForm
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse,get_object_or_404
 import datetime
 from django.views.decorators.http import require_POST
 
@@ -252,13 +252,27 @@ def alterar_pedido_uc(request):
 
 @require_POST
 def apagar_pedido_uc(request):
-    idpedido=request.POST.get('id')
-    pedido=Pedido.objects.get(id=idpedido)
-    pedidouc=pedidouc.objects.get(pedidoid=idpedido)
-    pedidouc.delete()
-    pedido.delete()
-    messages.success(request, 'Pedido de UC apagado com sucesso')
-    return HttpResponseRedirect(request.META['HTTP_REFERER'],)
+        idpedido=request.POST.get('id')
+        pedido=Pedido.objects.get(id=idpedido)
+        pedidouc=pedidouc.objects.get(pedidoid=idpedido)
+        pedidouc.delete()
+        pedido.delete()
+        messages.success(request, 'Pedido de UC apagado com sucesso')
+        return HttpResponseRedirect(request.META['HTTP_REFERER'],)
+
+def validar_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    pedido.estadoid = Estado.objects.get(id=2)
+    pedido.save()
+    messages.success(request, 'Pedido validado com sucesso')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+def nao_validar_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    pedido.estadoid = Estado.objects.get(id=3)
+    pedido.save()
+    messages.success(request, 'Pedido não validado com sucesso')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
    #def dispatch(self, request, *args, **kwargs):
  #       user_check_var = user_check(
