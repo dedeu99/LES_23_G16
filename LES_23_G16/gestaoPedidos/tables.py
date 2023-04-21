@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from .models import Pedido,PedidoHorario,Outros,PedidoSala,PedidoUc
+from .models import Pedido,PedidoHorario,Outros,PedidoSala,PedidoUC
 
 class PedidosTable(tables.Table):
 
@@ -23,7 +23,7 @@ class PedidosTable(tables.Table):
             return 'Outros'
         if PedidoSala.objects.filter(pedidoid=record.id).exists():
             return 'Sala'
-        if PedidoUc.objects.filter(pedidoid=record.id).exists():
+        if PedidoUC.objects.filter(pedidoid=record.id).exists():
             return 'Uc'
         return 'ERRO'
     

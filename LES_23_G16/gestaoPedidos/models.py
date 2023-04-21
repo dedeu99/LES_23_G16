@@ -128,7 +128,10 @@ class Pedido(models.Model):
     class Meta:
         managed = True
         db_table = 'pedido'
-class PedidoUc(models.Model):
+
+
+        
+class PedidoUC(models.Model):
     nome = models.CharField(db_column='Nome', max_length=255)  # Field name made lowercase.
     curso = models.CharField(db_column='Curso', max_length=255)  # Field name made lowercase.
     docenteresp = models.CharField(db_column='DocenteResp', max_length=255)  # Field name made lowercase.
@@ -138,34 +141,34 @@ class PedidoUc(models.Model):
         managed = True
         db_table = 'pedido_uc'
 
-class Uc(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    pedido_ucpedidoid = models.ForeignKey(PedidoUc, models.DO_NOTHING, db_column='Pedido_UCPedidoID')  # Field name made lowercase.
-    semestrelecionada = models.IntegerField(db_column='SemestreLecionada')  # Field name made lowercase.
-    codigo_disciplina = models.IntegerField(db_column='Codigo_disciplina')  # Field name made lowercase.
-    nomeuc = models.CharField(db_column='NomeUC', max_length=255)  # Field name made lowercase.
-    inst_disciplina = models.CharField(db_column='Inst_disciplina', max_length=255)  # Field name made lowercase.
-    turma = models.CharField(db_column='Turma', max_length=255)  # Field name made lowercase.
-    anolecionada = models.IntegerField(db_column='AnoLecionada')  # Field name made lowercase.
-    horas_semanais = models.CharField(db_column='Horas_semanais', max_length=255)  # Field name made lowercase.
-    horas_periodo = models.CharField(db_column='Horas_Periodo', max_length=255)  # Field name made lowercase.
-    data_inicio = models.CharField(db_column='Data_Inicio', max_length=255)  # Field name made lowercase.
-    data_fim = models.CharField(db_column='Data_Fim', max_length=255)  # Field name made lowercase.
+
+class UC(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    pedido_uc = models.ForeignKey(PedidoUC, models.DO_NOTHING, db_column='Pedido_UCPedidoID')
+    semestre_lecionada = models.IntegerField(db_column='SemestreLecionada')
+    codigo_disciplina = models.IntegerField(db_column='Codigo_disciplina')
+    nomeuc = models.CharField(db_column='NomeUC', max_length=255)
+    instituicao_disciplina = models.CharField(db_column='Inst_disciplina', max_length=255)
+    turma = models.CharField(db_column='Turma', max_length=255)
+    ano_lecionada = models.IntegerField(db_column='AnoLecionada')
+    horas_semanais = models.CharField(db_column='Horas_semanais', max_length=255)
+    horas_periodo = models.CharField(db_column='Horas_Periodo', max_length=255)
+    data_inicio = models.CharField(db_column='Data_Inicio', max_length=255)
+    data_fim = models.CharField(db_column='Data_Fim', max_length=255)
 
     class Meta:
         managed = True
         db_table = 'uc'
     def __str__(self):
         return self.nomeuc
-
-
+    
 
 class PedidoHorario(models.Model):
     motivopedido = models.CharField(db_column='MotivoPedido', max_length=255,verbose_name="Motivo do Pedido")  # Field name made lowercase.
     dataalterar = models.IntegerField(db_column='DataAlterar')  # Field name made lowercase.
     datanova = models.IntegerField(db_column='DataNova')  # Field name made lowercase.
     #sala = models.IntegerField(db_column='Sala')  # Field name made lowercase.
-    unidadec = models.ForeignKey(Uc,models.DO_NOTHING,db_column='UnidadeC',verbose_name="Unidade Curricular")  # Field name made lowercase.
+    unidadec = models.ForeignKey(UC,models.DO_NOTHING,db_column='UnidadeC',verbose_name="Unidade Curricular")  # Field name made lowercase.
     pedidoid = models.OneToOneField(Pedido, models.DO_NOTHING, db_column='PedidoID', primary_key=True)  # Field name made lowercase.
     horarioid2 = models.ForeignKey(Horario, models.DO_NOTHING, db_column='HorarioID2', related_name='horarioid2')  # Field name made lowercase.
     tipoalteracaoid = models.ForeignKey(Tipoalteracao, models.DO_NOTHING, db_column='TipoAlteracaoID',verbose_name="Tipo de Alteração")  # Field name made lowercase.
@@ -182,9 +185,6 @@ class PedidoSala(models.Model):
     class Meta:
         managed = True
         db_table = 'pedido_sala'
-
-
-
 
 class Pessoa(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
@@ -230,13 +230,10 @@ class TipoSala(models.Model):
 
 
 
-
-
-
 class CursoUc(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     cursoid = models.OneToOneField(Curso, models.DO_NOTHING, db_column='CursoID')  # Field name made lowercase.
-    ucid = models.OneToOneField(Uc, models.DO_NOTHING, db_column='UCID')  # Field name made lowercase.
+    ucid = models.OneToOneField(UC, models.DO_NOTHING, db_column='UCID')  # Field name made lowercase.
 
     class Meta:
         managed = True

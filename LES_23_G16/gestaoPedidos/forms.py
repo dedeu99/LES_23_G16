@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Pedido, PedidoHorario, Estado, Uc, PedidoUc, Outros
+from .models import Pedido, PedidoHorario, Estado, UC, PedidoUC, Outros
 from django.forms.fields import DateField
 
 class PedidoForm(ModelForm):
@@ -37,26 +37,32 @@ class PedidoHorarioForm(ModelForm):
   #      model = PedidoUc
    #     exclude = ['id']
 
-class UcForm(ModelForm):
+class UCForm(forms.ModelForm):
     class Meta:
-        model = Uc
-        fields = '__all__'
-        exclude = ['id']
-        widgets = {
-            'tipoalteracaoid': forms.Select(attrs={'class':'input'}),
-            'unidadec': forms.Select(attrs={'class':'input'}),
-            'motivopedido': forms.TextInput(attrs={'class':'input'}),
-            #'semestrelecionada': forms.NumberInput(attrs={'class': 'input'}),
-            #'codigo_disciplina': forms.NumberInput(attrs={'class': 'input'}),
-            #'nomeuc': forms.TextInput(attrs={'class': 'input'}),
-            #'inst_disciplina': forms.TextInput(attrs={'class': 'input'}),
-            #'turma': forms.TextInput(attrs={'class': 'input'}),
-            #'anolecionada': forms.NumberInput(attrs={'class': 'input'}),
-            #'horas_semanais': forms.TextInput(attrs={'class': 'input'}),
-            #'horas_periodo': forms.TextInput(attrs={'class': 'input'}),
-            #'data_inicio': forms.TextInput(attrs={'class': 'input'}),
-            #'data_fim': forms.TextInput(attrs={'class': 'input'}),
-        }
+        model = UC
+        exclude = ['pedido_uc']
+
+class PedidoUCForm(forms.Form):
+    pedido_uc = PedidoForm()
+    uc = UCForm()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        pedido_uc = cleaned_data.get('pedido_uc')
+        uc = cleaned_data.get('uc')
+
+        if not pedido_uc.is_valid() or not uc.is_valid():
+            raise forms.ValidationError('Os dados do pedido e da UC são inválidos.')
+
+        return cleaned_data
+
+    def save(self):
+        pedido_uc = self.cleaned_data['pedido_uc'].save()
+        uc = self.cleaned_data['uc'].save(commit=False)
+        uc.pedido_uc = pedido_uc
+        uc.save()
+        return uc
+    
 
 class PedidoOutroForm(ModelForm):
     
