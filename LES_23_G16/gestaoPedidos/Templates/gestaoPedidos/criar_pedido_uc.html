@@ -56,7 +56,7 @@
                     </span>
                 </div>
                 <div class="step-details">
-                    <p class="step-title">Dados do horário</p>
+                    <p class="step-title">Dados da Unidade Curricular</p>
                 </div>
             </div>
             <div class="step-item is-success is-active" data-step-id="2">
@@ -125,9 +125,9 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label">{{PedidoUCForm.motivopedido.label_tag}}</label>
+                                <label class="label">{{UCForm.nomeuc.label_tag}}</label>
                                 <div class="control is-clearfix">
-                                    {{PedidoUCForm.motivopedido}}
+                                    {{UCForm.nomeuc}}
                                 </div>
                             </div>
                         </div>
@@ -136,25 +136,9 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label">{{PedidoUCForm.tipoalteracaoid.label_tag}}</label>
+                                <label class="label">{{UCForm.semestre_lecionada.label_tag}}</label>
                                 <div class="control is-clearfix">
-                                    {{PedidoUCForm.tipoalteracaoid}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="field">
-                                <label class="label">De:</label>
-                                <div class="control is-clearfix">
-                                    <input type='date' class="input"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="field">
-                                <label class="label">Até:</label>
-                                <div class="control is-clearfix">
-                                    <input type='date' class="input"/>
+                                    {{UCForm.semestre_lecionada}}
                                 </div>
                             </div>
                         </div>
@@ -163,18 +147,97 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label">{{PedidoUCForm.unidadec.label_tag}}</label>
+                                <label class="label">{{UCForm.pedido_uc.label_tag}}</label>
                                 <div class="control is-clearfix">
-                                    {{PedidoUCForm.unidadec}}
+                                    {{UCForm.pedido_uc}}
                                 </div>
                             </div>
                         </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label">Turma:{#PedidoUCForm.unidadec.label_tag#}</label>
+                                <label class="label">{{UCForm.codigo_disciplina.label_tag}}</label>
                                 <div class="control is-clearfix">
-                                    {#PedidoUCForm.unidadec#}
-                                    DROPDOWN COM TURMAS DA UC
+                                    {{UCForm.codigo_disciplina}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.instituicao_disciplina.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.instituicao_disciplina}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.turma.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.turma}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.ano_lecionada.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.ano_lecionada}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.horas_semanais.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.horas_semanais}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.horas_periodo.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.horas_periodo}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.data_inicio.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.data_inicio}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.data_fim.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.data_fim}}
                                 </div>
                             </div>
                         </div>
@@ -182,112 +245,9 @@
                     </div>
                     <a href="#">
                         <button type="button" class="button is-success is-outlined" style="margin-bottom: 1rem;"><span
-                                class="icon is-small"><i class="mdi mdi-plus"></i></span> <span>Novo Horário</span>
+                                class="icon is-small"><i class="mdi mdi-plus"></i></span> <span>Nova UC</span>
                         </button>
                     </a>
-
-<div data-v-136e9626="" class="b-table" style="align-items:center;justify-content:center;display:flex">
-    <div class="field table-mobile-sort">
-        <div class="field has-addons">
-            <div class="control"></div>
-        </div>
-    </div>
-    <!---->
-    <div class="table-wrapper has-mobile-cards">
-        <table class="table is-striped is-hoverable">
-            <thead>
-                <tr><!----> <!---->
-                    <th class="is-current-sort is-sortable">
-                        <div class="th-wrap">Horário 
-                            <span class="icon is-small">
-                                <i class="mdi mdi-menu-up"></i>
-                            </span>
-                        </div>
-                    </th>
-                    <th class="is-sortable">
-                        <div class="th-wrap">Duração
-                            <span class="icon is-small is-invisible">
-                                <i class="mdi mdi-menu-up"></i>
-                            </span>
-                        </div>
-                    </th>
-                    <th class="is-sortable">
-                        <div class="th-wrap">Turma <!---->
-                        </div>
-                    </th>
-                    <th class="is-sortable">
-                        <div class="th-wrap">Sala <!---->
-                        </div>
-                    </th>
-                    <th class="is-sortable">
-                        <div class="th-wrap">Campus <!---->
-                        </div>
-                    </th>
-                    <th class="is-sortable">
-                        <div class="th-wrap">Docente <!---->
-                        </div>
-                    </th>
-                    <th class="">
-                        <div class="th-wrap is-centered">Ações <!---->
-                        </div>
-                    </th> <!---->
-                </tr> <!----> <!---->
-            </thead>
-            <tbody>
-                <tr draggable="false" class=""><!----> <!----> 
-                    <td data-v-136e9626="" data-label="Horário" class="">09:30 - 10:30</td>
-                    <td data-v-136e9626="" data-label="Duração" class="">60 min</td>
-                    <td data-v-136e9626="" data-label="Turma" class="">TP1</td>
-                    <td data-v-136e9626="" data-label="Sala" class="">3.1.2</td>
-                    <td data-v-136e9626="" data-label="Campus" class="">Penha</td>
-                    <td data-v-136e9626="" data-label="Docente" class="">
-                        <ul data-v-136e9626="" class="requerimentos">
-                            <li data-v-136e9626="">Prof. 2</li>
-                            <li data-v-136e9626="">Prof. 3</li>
-                        </ul>
-                    </td>
-                    <td data-v-136e9626="" data-label="Ações" class="has-text-centered">
-                        <a data-v-136e9626="">
-                            <span data-v-136e9626="" class="icon has-text-info">
-                                <i class="mdi mdi-square-edit-outline mdi-24px"></i>
-                            </span>
-                        </a>
-                        <a data-v-136e9626="">
-                            <span data-v-136e9626="" class="icon has-text-danger">
-                                <i class="mdi mdi-close-box mdi-24px"></i>
-                            </span>
-                        </a>
-                    </td> <!---->
-                </tr> <!----> <!---->
-                <tr draggable="false" class=""><!----> <!---->
-                    <td data-v-136e9626="" data-label="Horário" class="">11:30 - 12:00</td>
-                    <td data-v-136e9626="" data-label="Duração" class="">30 min</td>
-                    <td data-v-136e9626="" data-label="Turma" class="">T1</td>
-                    <td data-v-136e9626="" data-label="Sala" class="">1.3.12</td>
-                    <td data-v-136e9626="" data-label="Campus" class="">Gambelas</td>
-                    <td data-v-136e9626="" data-label="Docente" class="">
-                        <ul data-v-136e9626="" class="requerimentos">
-                            <li data-v-136e9626="">Prof. 1</li>
-                        </ul>
-                    </td>
-                    <td data-v-136e9626="" data-label="Ações" class="has-text-centered">
-                        <a data-v-136e9626="">
-                            <span data-v-136e9626="" class="icon has-text-info">
-                                <i class="mdi mdi-square-edit-outline mdi-24px"></i>
-                            </span>
-                        </a>
-                        <a data-v-136e9626="">
-                            <span data-v-136e9626="" class="icon has-text-danger">
-                                <i class="mdi mdi-close-box mdi-24px"></i>
-                            </span>
-                        </a>
-                    </td> <!---->
-                </tr> <!----> <!---->
-            </tbody> <!---->
-        </table>
-    </div> <!---->
-</div>
-
                 </div>
                 <div class="step-content is-active">
                     <div class="columns">
@@ -305,18 +265,18 @@
                     </div>
                 </div>
             </div>
-            
+
             <div style="margin-top:2%;text-align:center;position:center;" class="steps-actions">
                 <div class="steps-action">
                     <button type="button" data-nav="previous" value="Voltar" class="button is-outlined" style="margin-right:5%" href="#">Voltar</button>
                 </div>
                 <div class="steps-action">
-                    <button style="" data-nav="next" href="#" class="button is-success is-outlined">
+                    <button data-nav="next" href="#" class="button is-success is-outlined">
                         <span>Seguinte</span>
                     </button>
                 </div>
             </div>
-            
+
         </form>
     </div>
 

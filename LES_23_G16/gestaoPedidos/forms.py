@@ -37,32 +37,18 @@ class PedidoHorarioForm(ModelForm):
   #      model = PedidoUc
    #     exclude = ['id']
 
-class UCForm(forms.ModelForm):
+class PedidoUCForm(ModelForm):
     class Meta:
         model = UC
-        exclude = ['pedido_uc']
-
-class PedidoUCForm(forms.Form):
-    pedido_uc = PedidoForm()
-    uc = UCForm()
-
-    def clean(self):
-        cleaned_data = super().clean()
-        pedido_uc = cleaned_data.get('pedido_uc')
-        uc = cleaned_data.get('uc')
-
-        if not pedido_uc.is_valid() or not uc.is_valid():
-            raise forms.ValidationError('Os dados do pedido e da UC são inválidos.')
-
-        return cleaned_data
-
-    def save(self):
-        pedido_uc = self.cleaned_data['pedido_uc'].save()
-        uc = self.cleaned_data['uc'].save(commit=False)
-        uc.pedido_uc = pedido_uc
-        uc.save()
-        return uc
-    
+        fields = '__all__'
+        exclude = ['pedidoid']
+        widgets = {
+            'tipoalteracaoid': forms.Select(attrs={'class':'input'}),
+            'unidadec': forms.Select(attrs={'class':'input'}),
+            'motivopedido': forms.TextInput(attrs={'class':'input'}),
+            #'estadoid': forms.Select(attrs={'class':'input'}),
+            #'dataAlvo':forms.SelectDateWidget(attrs={'class':'date'})
+        }
 
 class PedidoOutroForm(ModelForm):
     

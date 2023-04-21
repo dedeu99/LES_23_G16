@@ -64,6 +64,44 @@
 {% endif %}
 
 
+{% if row.cells.tipo == "Uc" %}
+<tr>
+
+    {% if user.id|isFuncionario %}
+    <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:validar_pedido' pedido_id=row.record.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ row.record.id }}" name="id">
+        <td>
+            <button type="submit" class="button is-success is-outlined">
+                <span>Validar</span>
+            </button>    
+        </td>
+    </form>
+    <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:nao_validar_pedido' pedido_id=row.record.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ row.record.id }}" name="id">
+        <td>
+            <button type="submit" class="button is-success is-outlined">
+                <span>Não Validar</span>
+            </button>    
+        </td>
+    </form>
+    {% else %}
+    <td><a href="{{ row.cells.tipo|get_alter_url_from_tipoPedido:row.record.id }}"><button  class="button is-info is-outlined"><span>Alterar</span></button></a></td>
+    <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:apagar_pedido_uc'  %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ row.record.id }}" name="id">
+        <td>
+            <button type="submit" class="button is-success is-outlined">
+                <span>Apagar</span>
+            </button>    
+        </td>
+    </form>
+    {% endif %}
+</tr>
+{% endif %}
+
+
 
 
 
