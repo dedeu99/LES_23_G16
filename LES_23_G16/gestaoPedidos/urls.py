@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import consultar_pedidos,criar_pedido_horario,alterar_pedido_horario,apagar_pedido_horario,criar_pedido_outro,alterar_pedido_outros,apagar_pedido_outro,criar_pedido_uc,alterar_pedido_uc,apagar_pedido_uc, validar_pedido, nao_validar_pedido
+from .views import consultar_pedidos,criar_pedido_horario,alterar_pedido_horario,apagar_pedido_horario,criar_pedido_outro,alterar_pedido_outros,apagar_pedido_outro, validar_pedido, nao_validar_pedido
 
 app_name = 'gestaoPedidos'
 
@@ -27,9 +27,6 @@ urlpatterns = [
     path("criar_pedido_outro",criar_pedido_outro, name="criar_pedido_outro"),
     path("alterar_pedido_outros",alterar_pedido_outros, name="alterar_pedido_outros"),
     path("apagar_pedido_outro",apagar_pedido_outro, name="apagar_pedido_outro"),
-    path("criar_pedido_uc",criar_pedido_uc, name="criar_pedido_uc"),
-    path("alterar_pedido_uc",alterar_pedido_uc, name="alterar_pedido_uc"),
-    path("apagar_pedido_uc",apagar_pedido_uc, name="apagar_pedido_uc"),
     path('validar_pedido/<int:pedido_id>/', validar_pedido, name='validar_pedido'),
     path('nao_validar_pedido/<int:pedido_id>/', nao_validar_pedido, name='nao_validar_pedido')
 ]
