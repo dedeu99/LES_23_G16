@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import consultar_pedidos,criar_pedido_horario,alterar_pedido_horario,apagar_pedido_horario,criar_pedido_outro,alterar_pedido_outros,apagar_pedido_outro, validar_pedido, nao_validar_pedido
+from .views import consultar_pedidos,criar_pedido_horario,alterar_pedido_horario,apagar_pedido_horario,criar_pedido_outro,alterar_pedido_outros,apagar_pedido_outro,validar_pedido, nao_validar_pedido
 
 app_name = 'gestaoPedidos'
 

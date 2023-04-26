@@ -9,6 +9,7 @@ from .filters import PedidosFilter
 #from django.core.paginator import Paginator
 from .models import Pedido,PedidoHorario,Docente,Estado, Outros
 from .forms import PedidoForm,PedidoHorarioForm,  PedidoOutroForm
+
 from django.shortcuts import HttpResponse,get_object_or_404
 import datetime
 from django.views.decorators.http import require_POST
@@ -115,6 +116,7 @@ def apagar_pedido_horario(request):
     messages.success(request, 'Pedido de Horário apagado com sucesso')
     return HttpResponseRedirect(request.META['HTTP_REFERER'],)
 
+
 def criar_pedido_outro(request):
     # if this is a POST request we need to process the form data
     if request.method == "POST":
@@ -198,6 +200,8 @@ def apagar_pedido_outro(request):
     pedido.delete()
     messages.success(request, 'Pedido Outro apagado com sucesso')
     return HttpResponseRedirect(request.META['HTTP_REFERER'],)
+
+
 
 
 def enviar_email(destinatario, assunto, mensagem, remetente, senha):
