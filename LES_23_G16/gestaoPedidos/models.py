@@ -26,10 +26,6 @@ class Curso(models.Model):
         managed = True
         db_table = 'curso'
 
-
-
-
-
 class Docente(models.Model):
     codigo_docente = models.IntegerField(db_column='Codigo_Docente')  # Field name made lowercase.
     departamento_docente = models.CharField(db_column='Departamento_Docente', max_length=255)  # Field name made lowercase.
@@ -144,7 +140,7 @@ class PedidoUC(models.Model):
 
 class UC(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
-    pedido_uc = models.ForeignKey(PedidoUC, models.DO_NOTHING, db_column='Pedido_UCPedidoID')
+    pedido_uc = models.ForeignKey(PedidoUC, models.DO_NOTHING, db_column='PedidoID')
     semestre_lecionada = models.IntegerField(db_column='SemestreLecionada')
     codigo_disciplina = models.IntegerField(db_column='Codigo_disciplina')
     nomeuc = models.CharField(db_column='NomeUC', max_length=255)

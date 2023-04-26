@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Pedido, PedidoHorario, Estado, UC, PedidoUC, Outros
+from .models import Pedido, PedidoHorario, Estado, UC, Outros
 from django.forms.fields import DateField
 
 class PedidoForm(ModelForm):
@@ -49,6 +49,7 @@ class PedidoUCForm(ModelForm):
             #'estadoid': forms.Select(attrs={'class':'input'}),
             #'dataAlvo':forms.SelectDateWidget(attrs={'class':'date'})
         }
+        
 
 class PedidoOutroForm(ModelForm):
     
