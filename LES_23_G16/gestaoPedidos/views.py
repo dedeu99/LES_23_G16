@@ -7,9 +7,8 @@ from django_filters.views import FilterView
 from .tables import PedidosTable
 from .filters import PedidosFilter
 #from django.core.paginator import Paginator
-from .models import Pedido,PedidoHorario,Docente,Estado, Outros
-from .forms import PedidoForm,PedidoHorarioForm,  PedidoOutroForm
-
+from .models import Pedido,PedidoHorario,Docente,Estado, Outros, PedidoUC, PedidoSala, Sala
+from .forms import PedidoForm,PedidoHorarioForm, PedidoUCForm, PedidoOutroForm, PedidoUCForm, PedidoSalaForm
 from django.shortcuts import HttpResponse,get_object_or_404
 import datetime
 from django.views.decorators.http import require_POST
@@ -116,7 +115,6 @@ def apagar_pedido_horario(request):
     messages.success(request, 'Pedido de Horário apagado com sucesso')
     return HttpResponseRedirect(request.META['HTTP_REFERER'],)
 
-
 def criar_pedido_outro(request):
     # if this is a POST request we need to process the form data
     if request.method == "POST":
@@ -202,8 +200,6 @@ def apagar_pedido_outro(request):
     return HttpResponseRedirect(request.META['HTTP_REFERER'],)
 
 
-
-
 def enviar_email(destinatario, assunto, mensagem, remetente, senha):
     # configurar o email
     email = MIMEMultipart()
@@ -280,3 +276,139 @@ def nao_validar_pedido(request, pedido_id):
     #     context = self.get_context_data(**kwargs)
     #     context['table'] = data
     #     return self.render_to_response(context)
+
+def criar_pedido_sala(request):
+    if request.method == "POST":
+        pform = PedidoForm(request.POST, instance=Pedido())
+        phform = PedidoSalaForm(request.POST)
+        if pform.is_valid() and phform.is_valid():
+            novo_pedido = pform.save(commit=False)
+            novo_pedido.datecreation = datetime.datetime.now()
+            novo_pedido.estadoid = Estado.objects.get(id=1) #Forçar o estado a criado independentemente do que vem
+            novo_pedido.docentepessoaid = Docente.objects.get(pessoaid=request.user.id)
+            novo_pedido_sala = phform.save(commit=False)
+            novo_pedido_sala.pedidoid = novo_pedido
+            novo_pedido.save()
+            novo_pedido_sala.save()
+            messages.success(request, 'Pedido de Sala criado com sucesso')
+            return redirect('gestaoPedidos:consultar_pedidos')
+        else:
+            for error in pform.errors:
+                messages.error(request, pform.errors[error])
+            for error in phform.errors:
+                messages.error(request, phform.errors[error])
+            return render(request=request,
+                template_name="gestaoPedidos/criar_pedido_sala.html", context = {'pedidoform': pform,'salaForm':phform})
+    else:
+        # if a GET (or any other method) we'll create a blank form
+        pform = PedidoForm(instance=Pedido())
+        phform = PedidoSalaForm(instance=PedidoSala())
+        #cforms = [ChoiceForm(prefix=str(x), instance=Choice()) for x in range(0,3)]
+    return render(request=request,
+                template_name="gestaoPedidos/criar_pedido_sala.html", context = {'pedidoform': pform,'salaForm':phform})
+
+
+def criar_pedido_uc(request):
+    if request.method == "POST":
+        pform = PedidoForm(request.POST, instance=Pedido())
+        phform = PedidoUCForm(request.POST)
+        if pform.is_valid() and phform.is_valid():
+            novo_pedido = pform.save(commit=False)
+            novo_pedido.datecreation = datetime.datetime.now()
+            novo_pedido.estadoid = Estado.objects.get(id=1) #Forçar o estado a criado independentemente do que vem
+            novo_pedido.docentepessoaid = Docente.objects.get(pessoaid=request.user.id)
+            novo_pedido_uc = phform.save(commit=False)
+            novo_pedido_uc.pedidoid = novo_pedido
+
+            if Pedido.objects.filter(assunto=novo_pedido.assunto, descricao=novo_pedido.descricao, dataAlvo=novo_pedido.dataAlvo).exists():
+                messages.error(request, 'Já existe um pedido com o mesmo assunto, descrição e data alvo.')
+                return redirect('gestaoPedidos:consultar_pedidos')
+            
+            novo_pedido.save()
+            novo_pedido_uc.save()
+            messages.success(request, 'Pedido de UC criado com sucesso')
+            return redirect('gestaoPedidos:consultar_pedidos')
+        else:
+            for error in pform.errors:
+                messages.error(request, pform.errors[error])
+            for error in phform.errors:
+                messages.error(request, phform.errors[error])
+            #return HttpResponse(str("Objecto NÃO Criado\npform.is_valid():"+" {}").format(pform.is_valid()))
+            return render(request=request,
+                template_name="gestaoPedidos/criar_pedido_uc.html", context = {'pedidoform': pform,'UCForm':phform})
+    else:
+        # if a GET (or any other method) we'll create a blank form
+        pform = PedidoForm(instance=Pedido())
+        phform = PedidoUCForm(instance=PedidoUC())
+        #cforms = [ChoiceForm(prefix=str(x), instance=Choice()) for x in range(0,3)]
+    return render(request=request,
+                template_name="gestaoPedidos/criar_pedido_uc.html", context = {'pedidoform': pform,'UCForm':phform})
+
+
+def alterar_pedido_uc(request):
+        # if this is a POST request we need to process the form data
+    idpedido=request.GET.get('id')
+    pedido=Pedido.objects.get(id=idpedido)
+    pedidouc=PedidoUC.objects.get(pedidoid=idpedido)
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        pform = PedidoForm(request.POST, instance=pedido)
+        phform = PedidoUCForm(request.POST, instance=pedidouc)
+        # check whether it's valid:
+        if pform.is_valid() and phform.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            
+            novo_pedido = pform.save(commit=False)
+            #novo_pedido.datecreation = datetime.datetime.now()
+            novo_pedido.estadoid = Estado.objects.get(id=1) #Forçar o estado a criado independentemente do que vem
+            #novo_pedido.docentepessoaid = Docente.objects.get(pessoaid=request.user.id)
+            novo_pedido_uc = phform.save()
+            #novo_pedido_horario.pedidoid = novo_pedido
+            novo_pedido.save()
+            novo_pedido_uc.save()
+            messages.success(request, 'Pedido UC alterado com sucesso')
+            return redirect('gestaoPedidos:consultar_pedidos')
+        else:
+            for error in pform.errors:
+                messages.error(request, pform.errors[error])
+            #return HttpResponse(str("Objecto NÃO Criado\npform.is_valid():"+" {}").format(pform.is_valid()))
+            return render(request=request,
+                template_name="gestaoPedidos/criar_pedido_uc.html", context = {'pedidoform': pform,'UCForm':phform})
+    else:
+         # if a GET (or any other method) we'll create a form form existing objects
+
+        pform = PedidoForm(instance=pedido)
+        phform = PedidoUCForm(instance=pedidouc)
+        return render(request=request,
+                    template_name="gestaoPedidos/criar_pedido_uc.html", context = {'pedidoform': pform,'UCForm':phform})
+
+@require_POST
+def apagar_pedido_uc(request):
+    idpedido=request.POST.get('id')
+    pedido=Pedido.objects.get(id=idpedido)
+    pedidouc=PedidoUC.objects.get(pedidoid=idpedido)
+
+    if(pedido.estadoid.id == 1):
+        return redirect('gestaoPedidos:consultar_pedidos')
+    if request.POST.get('confirmar_exclusao') == 'Sim':
+        pedidouc.delete()
+        pedido.delete()
+        messages.success(request, 'Pedido UC apagado com sucesso')
+        return redirect('gestaoPedidos:consultar_pedidos')
+    else:
+        return render(request, 'gestaoPedidos/confirmar_exclusao.html', {'pedido': pedido})
+
+
+def consultar_pedido_uc(request, id):
+    pedido = Pedido.objects.get(id=id)
+    pedido_uc = PedidoUC.objects.get(pedidoid=id)
+
+    context = {
+        'pedido': pedido,
+        'pedido_uc': pedido_uc
+    }
+    return render(request, 'gestaoPedidos/consultar_pedido_uc.html', context)
+
+

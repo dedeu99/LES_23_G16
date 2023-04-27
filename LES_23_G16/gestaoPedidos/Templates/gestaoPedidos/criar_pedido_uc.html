@@ -1,0 +1,382 @@
+{% extends 'home/index.html' %}
+{% block title %}- Criar Pedido de UC{% endblock title %}
+{% if pedidoform.errors or UCForm.errors %}
+    <div style="margin-left:30%;margin-right:30%; margin-top:%">
+        <div style="margin-top:2%;">
+            <article class="message is-danger">
+                <div class="message-body">
+                    <!--p style="text-align: center;"-->
+                        {% if pedidoform.non_field_errors %}
+                            {% for error in pedidoform.non_field_errors %}
+                                <p style="color: #ff0000; text-align:center">{{error}}</p>
+                            {% endfor %}
+                        {% endif %} 
+                        {% if UCForm.non_field_errors %}
+                            {% for error in UCForm.non_field_errors %}
+                                <p style="color: #ff0000; text-align:center">{{error}}</p>
+                            {% endfor %}
+                        {% endif %}
+                        {% for error in erros %}
+                            <p style="color: #ff0000; text-align:center">{{error}}</p>
+                        {% endfor %}
+                        {% for field in pedidoform %}
+                            {% for error in field.errors %}
+                                <p style="color: #ff0000;">{{field.label}} - {{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for field in ucform %}
+                            {% for error in field.errors %}
+                                <p style="color: #ff0000;">{{field.label}} - {{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                    <!--/p-->
+                </div>
+            </article>  
+        </div>
+    </div>
+{% endif %}
+{% block content %} 
+    <div style="padding: 3rem 2vw 1rem;">
+        
+        <form action="#" method="post" class="steps is-success">
+            <div class="step-item is-success is-active" data-step-id="0">
+                <div class="step-marker">
+                    <span class="icon">
+                        <i class="mdi mdi-account"></i>
+                    </span>
+                </div>
+                <div class="step-details">
+                    <p class="step-title">Dados do pedido</p>
+                </div>
+            </div>
+            <div class="step-item is-success is-active" data-step-id="1">
+                <div class="step-marker">
+                    <span class="icon">
+                        <i class="mdi mdi-circle-edit-outline mdi-24px"></i>
+                    </span>
+                </div>
+                <div class="step-details">
+                    <p class="step-title">Dados da Unidade Curricular</p>
+                </div>
+            </div>
+            <div class="step-item is-success is-active" data-step-id="2">
+                <div class="step-marker">
+                    <span class="icon">
+                        <i class="mdi mdi-check"></i>
+                    </span>
+                </div>
+                <div class="step-details">
+                    <p class="step-title">Concluir</p>
+                </div>
+            </div>
+            
+            {% csrf_token %}
+            <div class="steps-content">
+                <div class="step-content is-active">
+                    <div class="columns">
+                        <div class="column level-left">
+                            <div class="field">
+                                <label class="label">{{pedidoform.dataAlvo.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{pedidoform.dataAlvo}}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="column level-right">
+                            <div class="level-item">
+                                <div class="field">
+                                    {% if pedidoform.estadoid.value%}
+                                    <label class="label">{{pedidoform.estadoid.label_tag}}</label>
+                                    <div class="control is-clearfix select">
+                                        {{pedidoform.estadoid}}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{pedidoform.assunto.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{pedidoform.assunto}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{pedidoform.descricao.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{pedidoform.descricao}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="step-content is-active">
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.semestrelecionada.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.semestrelecionada}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.nomeuc.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.nomeuc}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.anolecionada.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.anolecionada}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.horas_semanais.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.horas_semanais}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.horas_periodo.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.horas_periodo}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.data_inicio.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.data_inicio}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.data_fim.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.data_fim}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.regente.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.regente}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">{{UCForm.curso.label_tag}}</label>
+                                <div class="control is-clearfix">
+                                    {{UCForm.curso}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <a href="#">
+                        <button type="button" class="button is-success is-outlined" style="margin-bottom: 1rem;"><span
+                                class="icon is-small"><i class="mdi mdi-plus"></i></span> <span>Nova UC</span>
+                        </button>
+                    </a>
+                    <div data-v-136e9626="" class="b-table" style="align-items:center;justify-content:center;display:flex">
+                        <div class="field table-mobile-sort">
+                            <div class="field has-addons">
+                                <div class="control"></div>
+                            </div>
+                        </div>
+                        <!---->
+                        <div class="table-wrapper has-mobile-cards">
+                            <table class="table is-striped is-hoverable">
+                                <thead>
+                                    <tr><!----> <!---->
+                                        <th class="is-current-sort is-sortable">
+                                            <div class="th-wrap">Semestre 
+                                                <span class="icon is-small">
+                                                    <i class="mdi mdi-menu-up"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th class="is-sortable">
+                                            <div class="th-wrap">Nome
+                                                <span class="icon is-small is-invisible">
+                                                    <i class="mdi mdi-menu-up"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th class="is-sortable">
+                                            <div class="th-wrap">Alunos <!---->
+                                            </div>
+                                        </th>
+                                        <th class="is-sortable">
+                                            <div class="th-wrap">Horas Semanais <!---->
+                                            </div>
+                                        </th>
+                                        <th class="is-sortable">
+                                            <div class="th-wrap">Duração <!---->
+                                            </div>
+                                        </th>
+                                        <th class="is-sortable">
+                                            <div class="th-wrap">Data de Começo <!---->
+                                            </div>
+                                        </th>
+                                        <th class="">
+                                            <div class="th-wrap is-centered">Data de fim <!---->
+                                            </div>
+                                        </th>
+                                        <th class="">
+                                            <div class="th-wrap is-centered">Regente<!---->
+                                            </div>
+                                        </th> 
+                                        <th class="">
+                                            <div class="th-wrap is-centered">Curso <!---->
+                                            </div>
+                                        </th><!---->
+                                    </tr> <!----> <!---->
+                                </thead>
+                                <tbody>
+                                    <tr draggable="false" class=""><!----> <!----> 
+                                        <td data-v-136e9626="" data-label="semestrelecionada" class="">1º semestre</td>
+                                        <td data-v-136e9626="" data-label="nomeuc" class="">Engenharia de Software</td>
+                                        <td data-v-136e9626="" data-label="anolecionada" class="">2023</td>
+                                        <td data-v-136e9626="" data-label="horas_semanais" class="">2h</td>
+                                        <td data-v-136e9626="" data-label="horas_periodo" class="">1h</td>
+                                        <td data-v-136e9626="" data-label="regente" class="">Cristina</td>
+                                        <td data-v-136e9626="" data-label="data_inicio" class="">23/06/2023</td>
+                                        <td data-v-136e9626="" data-label="data_fim" class="">23/07/2023</td>
+                                        <td data-v-136e9626="" data-label="curso" class="">LEI</td>
+                                        
+                                        </td>
+                                        <td data-v-136e9626="" data-label="Ações" class="has-text-centered">
+                                            <a data-v-136e9626="">
+                                                <span data-v-136e9626="" class="icon has-text-info">
+                                                    <i class="mdi mdi-square-edit-outline mdi-24px"></i>
+                                                </span>
+                                            </a>
+                                            <a data-v-136e9626="">
+                                                <span data-v-136e9626="" class="icon has-text-danger">
+                                                    <i class="mdi mdi-close-box mdi-24px"></i>
+                                                </span>
+                                            </a>
+                                        </td> <!---->
+                                    </tr> <!----> <!---->
+                                    <tr draggable="false" class=""><!----> <!---->
+                                        <td data-v-136e9626="" data-label="semestrelecionada" class="">2º semestre</td>
+                                        <td data-v-136e9626="" data-label="nomeuc" class="">Laboratório de Engenharia de Software</td>
+                                        <td data-v-136e9626="" data-label="anolecionada" class="">2023</td>
+                                        <td data-v-136e9626="" data-label="horas_semanais" class="">3h</td>
+                                        <td data-v-136e9626="" data-label="horas_periodo" class="">1h</td>
+                                        <td data-v-136e9626="" data-label="regente" class="">Cristina</td>
+                                        <td data-v-136e9626="" data-label="data_inicio" class="">27/06/2023</td>
+                                        <td data-v-136e9626="" data-label="data_fim" class="">27/07/2023</td>
+                                        <td data-v-136e9626="" data-label="curso" class="">MAEG</td>
+                                        
+                                        </td>
+                                        <td data-v-136e9626="" data-label="Ações" class="has-text-centered">
+                                            <a data-v-136e9626="">
+                                                <span data-v-136e9626="" class="icon has-text-info">
+                                                    <i class="mdi mdi-square-edit-outline mdi-24px"></i>
+                                                </span>
+                                            </a>
+                                            <a data-v-136e9626="">
+                                                <span data-v-136e9626="" class="icon has-text-danger">
+                                                    <i class="mdi mdi-close-box mdi-24px"></i>
+                                                </span>
+                                            </a>
+                                        </td> <!---->
+                                    </tr> <!----> <!---->
+                                </tbody> <!---->
+                            </table>
+                        </div> <!---->
+                    </div>
+                </div>
+
+                <div class="step-content is-active">
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field" >
+                                <label class="label">CLicar no botão para confirmar e criar o pedido deSala</label>
+                                <div class="control is-clearfix" style="margin-top:2%;text-align:center;position:center;">
+                                    <button type="submit" class="button is-success is-outlined" >
+                                        <span>Submeter</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top:2%;text-align:center;position:center;" class="steps-actions">
+                <div class="steps-action">
+                    <button type="button" data-nav="previous" value="Voltar" class="button is-outlined" style="margin-right:5%" href="#">Voltar</button>
+                </div>
+                <div class="steps-action">
+                    <button style="" data-nav="next" href="#" class="button is-success is-outlined">
+                        <span>Seguinte</span>
+                    </button>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+
+{% endblock content %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bulma-steps@2.2.1/dist/js/bulma-steps.js"></script>
+<!--script src="bulma-calendar/dist/js/bulma-calendar.min.js"></script-->
+<script>
+    bulmaSteps.attach();
+    const obj = document.getElementById("msg");
+    obj.addEventListener('onFinish', ()=>{console.log("Finished")});
+</script>
+{% endblock scripts %}

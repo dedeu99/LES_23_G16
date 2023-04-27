@@ -1,0 +1,21 @@
+{% extends 'home/index.html' %}
+
+{% block content %}
+  <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+    <div style="background-color: #2D73D8; padding: 20px; border-radius: 10px;">
+      <h1 style="color: white; text-align: center;">Confirmar exclusão do pedido {{ pedido.id }}</h1>
+      <p style="color: white; text-align: center;">Tem certeza que deseja excluir este pedido?</p>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ pedido.id }}">
+        <input type="hidden" name="confirmar_exclusao" value="Sim">
+        <button type="submit" class="btn btn-danger" style="display: block; margin: 0 auto;">Sim, excluir pedido</button>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default" style="display: block; margin: 10px auto 0; color: white;">Não, voltar para a lista de pedidos</a>
+
+      </form>
+      <script>
+        document.querySelector('form').addEventListener('submit', confirmarExclusao);
+      </script>
+    </div>
+  </div>
+{% endblock %}

@@ -7,6 +7,9 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
+from datetime import date
 
 class Campus(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
@@ -38,6 +41,8 @@ class Docente(models.Model):
     class Meta:
         managed = True
         db_table = 'docente'
+    def __str__(self):
+        return str(self.codigo_docente)
 
 
 class Estado(models.Model):
@@ -111,12 +116,13 @@ class Tipoalteracao(models.Model):
     def __str__(self):
         return self.descricao
 
+
 class Pedido(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     dataAlvo = models.DateField(db_column='dataAlvo',verbose_name="Data Alvo")
     assunto = models.CharField(db_column='assunto', max_length=255,verbose_name="Assunto")
     descricao = models.TextField(db_column='descricao', max_length=255,verbose_name="Descrição")
-    estadoid = models.ForeignKey(Estado, models.DO_NOTHING, db_column='EstadoID',verbose_name="Estado")  # Field name made lowercase.
+    estadoid = models.ForeignKey(Estado, models.DO_NOTHING, db_column='EstadoID',verbose_name="Estado", default=2)  # Field name made lowercase.
     funcionariopessoaid = models.ForeignKey(Funcionario, models.DO_NOTHING, db_column='FuncionarioPessoaID', null=True)  # Field name made lowercase.
     docentepessoaid = models.ForeignKey(Docente, models.DO_NOTHING, db_column='DocentePessoaID')  # Field name made lowercase.
     datecreation = models.DateField(db_column='DateCreation')  
@@ -125,22 +131,50 @@ class Pedido(models.Model):
         managed = True
         db_table = 'pedido'
 
+def year_validator(value):
+    if not (2023 <= int(value) <= 2024):
+        raise ValidationError("O valor deve ser um ano válido entre 2022 e 2024.")
 
-        
+# Modelo com o campo 'anolecionada' que aceita apenas anos como valores
+class ExampleModel(models.Model):
+    anolecionada = models.CharField(
+        db_column='AnoLecionada',
+        max_length=255,
+        validators=[year_validator]  # Adicione a função de validação personalizada ao campo
+    )
+
+SEMESTRE_CHOICES = (
+    ('1semestre', '1º Semestre'),
+    ('2semestre', '2º Semestre'),
+)
+ANO_CHOICES = (
+    ('2023', '2023'),
+)
+
 class PedidoUC(models.Model):
-    nome = models.CharField(db_column='Nome', max_length=255)  # Field name made lowercase.
-    curso = models.CharField(db_column='Curso', max_length=255)  # Field name made lowercase.
-    docenteresp = models.CharField(db_column='DocenteResp', max_length=255)  # Field name made lowercase.
     pedidoid = models.OneToOneField(Pedido, models.DO_NOTHING, db_column='PedidoID', primary_key=True)  # Field name made lowercase.
+    motivopedido = models.CharField(db_column='MotivoPedido', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    dataalterar = models.IntegerField(db_column='DataAlterar', blank=True, null=True)  # Field name made lowercase.
+    datanova = models.IntegerField(db_column='DataNova', blank=True, null=True)  # Field name made lowercase.
+    id_uc = models.IntegerField(blank=True, null=True)
+    semestrelecionada = models.CharField(db_column='SemestreLecionada', max_length=255, choices=SEMESTRE_CHOICES)  # Field name made lowercase.
+    nomeuc = models.CharField(db_column='NomeUC', max_length=255)  # Field name made lowercase.
+    anolecionada = models.CharField(validators=[year_validator],db_column='AnoLecionada', max_length=255, choices=ANO_CHOICES)  # Field name made lowercase.
+    horas_semanais = models.CharField(db_column='Horas_semanais', max_length=255)  # Field name made lowercase.
+    horas_periodo = models.CharField(db_column='Horas_Periodo', max_length=255)  # Field name made lowercase.
+    data_inicio = models.CharField(db_column='Data_Inicio', max_length=255)  # Field name made lowercase.
+    regente = models.CharField(db_column='Regente', max_length=255)  # Field name made lowercase.
+    data_fim = models.CharField(db_column='Data_Fim', max_length=255)  # Field name made lowercase.
+    curso = models.CharField(db_column='Curso', max_length=255)  # Field name made lowercase.
 
     class Meta:
         managed = True
         db_table = 'pedido_uc'
-
+        # Função de validação personalizada para verificar se o valor inserido é um ano válido
 
 class UC(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
-    pedido_uc = models.ForeignKey(PedidoUC, models.DO_NOTHING, db_column='PedidoID')
+    pedido_uc = models.ForeignKey(PedidoUC, models.DO_NOTHING, db_column='Pedido_UCPedidoID')
     semestre_lecionada = models.IntegerField(db_column='SemestreLecionada')
     codigo_disciplina = models.IntegerField(db_column='Codigo_disciplina')
     nomeuc = models.CharField(db_column='NomeUC', max_length=255)
@@ -160,14 +194,14 @@ class UC(models.Model):
     
 
 class PedidoHorario(models.Model):
-    motivopedido = models.CharField(db_column='MotivoPedido', max_length=255,verbose_name="Motivo do Pedido")  # Field name made lowercase.
-    dataalterar = models.IntegerField(db_column='DataAlterar')  # Field name made lowercase.
-    datanova = models.IntegerField(db_column='DataNova')  # Field name made lowercase.
+    motivopedido = models.CharField(db_column='MotivoPedido', max_length=255,verbose_name="Motivo do Pedido")  # Field name made lowercase. k
+    dataalterar = models.IntegerField(db_column='DataAlterar')  # Field name made lowercase. k
+    datanova = models.IntegerField(db_column='DataNova')  # Field name made lowercase. k
     #sala = models.IntegerField(db_column='Sala')  # Field name made lowercase.
-    unidadec = models.ForeignKey(UC,models.DO_NOTHING,db_column='UnidadeC',verbose_name="Unidade Curricular")  # Field name made lowercase.
+    unidadec = models.ForeignKey(UC,models.DO_NOTHING,db_column='UnidadeC',verbose_name="Unidade Curricular")  # Field name made lowercase. k
     pedidoid = models.OneToOneField(Pedido, models.DO_NOTHING, db_column='PedidoID', primary_key=True)  # Field name made lowercase.
     horarioid2 = models.ForeignKey(Horario, models.DO_NOTHING, db_column='HorarioID2', related_name='horarioid2')  # Field name made lowercase.
-    tipoalteracaoid = models.ForeignKey(Tipoalteracao, models.DO_NOTHING, db_column='TipoAlteracaoID',verbose_name="Tipo de Alteração")  # Field name made lowercase.
+    tipoalteracaoid = models.ForeignKey(Tipoalteracao, models.DO_NOTHING, db_column='TipoAlteracaoID',verbose_name="Tipo de Alteração")  # Field name made lowercase. k
     horarioid = models.ForeignKey(Horario, models.DO_NOTHING, db_column='HorarioID', related_name='horarioid')  # Field name made lowercase.
 
     class Meta:
@@ -177,10 +211,17 @@ class PedidoHorario(models.Model):
 
 class PedidoSala(models.Model):
     pedidoid = models.OneToOneField(Pedido, models.DO_NOTHING, db_column='PedidoID', primary_key=True)  # Field name made lowercase.
+    motivopedido = models.CharField(db_column='MotivoPedido', max_length=255)  # Field name made lowercase.
+    dataalterar = models.DateField(db_column='DataAlterar')  # Field name made lowercase.
+    datanova = models.DateField(db_column='DataNova')  # Field name made lowercase.
+    id_sala = models.ForeignKey('Sala', models.DO_NOTHING, db_column='id_sala', default=1)
 
     class Meta:
         managed = True
         db_table = 'pedido_sala'
+
+    def __str__(self):
+        return self.motivopedido
 
 class Pessoa(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
@@ -210,6 +251,7 @@ class Sala(models.Model):
     pedido_salapedidoid = models.ForeignKey(PedidoSala, models.DO_NOTHING, db_column='Pedido_SalaPedidoID')  # Field name made lowercase.
     num = models.FloatField(db_column='Num')  # Field name made lowercase.
     edificio = models.IntegerField(db_column='Edificio')  # Field name made lowercase.
+    capacidade = models.IntegerField(db_column='capacidade')
 
     class Meta:
         managed = True
