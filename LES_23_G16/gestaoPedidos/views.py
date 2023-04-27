@@ -16,7 +16,12 @@ from django.core.mail import send_mail, EmailMessage
 from django.urls import reverse
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
+from django.http import HttpResponse
+from django.template.loader import get_template
+import io
+from django.http import FileResponse
+from xhtml2pdf import pisa
+from django.template.loader import get_template
 
 # Create your views here.
 
@@ -411,4 +416,17 @@ def consultar_pedido_uc(request, id):
     }
     return render(request, 'gestaoPedidos/consultar_pedido_uc.html', context)
 
-
+def generate_pdf(request, pedido_id):
+    pedido = Pedido.objects.get(id=pedido_id)
+    template_path = 'gestaoPedidos/pedido_template.html'  # Your template path
+    context = {'pedido': pedido}
+    # Render the HTML template with the context data
+    html = get_template(template_path).render(context)
+    # Generate the PDF file
+    pdf_buffer = io.BytesIO()
+    pisa.CreatePDF(html, dest=pdf_buffer)
+    # Set the PDF response
+    pdf_buffer.seek(0)
+    response = FileResponse(pdf_buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="pedido_{pedido_id}.pdf"'
+    return response

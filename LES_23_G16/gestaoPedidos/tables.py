@@ -1,5 +1,10 @@
 import django_tables2 as tables
 from .models import Pedido,PedidoHorario,Outros,PedidoSala,PedidoUC
+from django_tables2 import Column, Table
+from django.urls import reverse
+from django.utils.html import format_html
+
+
 
 class PedidosTable(tables.Table):
 
@@ -10,6 +15,7 @@ class PedidosTable(tables.Table):
     docentepessoaid = tables.Column(accessor='docentepessoaid.pessoaid.nome',verbose_name='Docente',orderable=False)
     datevalidation = tables.Column(verbose_name='Data Validação')
     datecreation = tables.Column(verbose_name='Data Criação')
+
 
     class Meta:
         model = Pedido
@@ -48,3 +54,5 @@ class PedidosTable(tables.Table):
     #    kwargs.update({'foo': 'bar'}) # inject the foo value
     #    # now process dispatch as it otherwise normally would
     #    return super().dispatch(request, *args, **kwargs)
+
+

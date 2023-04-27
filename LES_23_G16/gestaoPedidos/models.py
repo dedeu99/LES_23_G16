@@ -157,15 +157,15 @@ class PedidoUC(models.Model):
     dataalterar = models.IntegerField(db_column='DataAlterar', blank=True, null=True)  # Field name made lowercase.
     datanova = models.IntegerField(db_column='DataNova', blank=True, null=True)  # Field name made lowercase.
     id_uc = models.IntegerField(blank=True, null=True)
-    semestrelecionada = models.CharField(db_column='SemestreLecionada', max_length=255, choices=SEMESTRE_CHOICES)  # Field name made lowercase.
-    nomeuc = models.CharField(db_column='NomeUC', max_length=255)  # Field name made lowercase.
+    semestrelecionada = models.CharField(db_column='SemestreLecionada', max_length=255, choices=SEMESTRE_CHOICES, default='')  # Field name made lowercase.
+    nomeuc = models.CharField(db_column='NomeUC', max_length=255, default='')  # Field name made lowercase.
     anolecionada = models.CharField(validators=[year_validator],db_column='AnoLecionada', max_length=255, choices=ANO_CHOICES)  # Field name made lowercase.
-    horas_semanais = models.CharField(db_column='Horas_semanais', max_length=255)  # Field name made lowercase.
-    horas_periodo = models.CharField(db_column='Horas_Periodo', max_length=255)  # Field name made lowercase.
-    data_inicio = models.CharField(db_column='Data_Inicio', max_length=255)  # Field name made lowercase.
-    regente = models.CharField(db_column='Regente', max_length=255)  # Field name made lowercase.
-    data_fim = models.CharField(db_column='Data_Fim', max_length=255)  # Field name made lowercase.
-    curso = models.CharField(db_column='Curso', max_length=255)  # Field name made lowercase.
+    horas_semanais = models.CharField(db_column='Horas_semanais', max_length=255, default='')  # Field name made lowercase.
+    horas_periodo = models.CharField(db_column='Horas_Periodo', max_length=255, default='')  # Field name made lowercase.
+    data_inicio = models.CharField(db_column='Data_Inicio', max_length=255, default='')  # Field name made lowercase.
+    regente = models.CharField(db_column='Regente', max_length=255, default='')  # Field name made lowercase.
+    data_fim = models.CharField(db_column='Data_Fim', max_length=255, default='')  # Field name made lowercase.
+    curso = models.CharField(db_column='Curso', max_length=255, default='')  # Field name made lowercase.
 
     class Meta:
         managed = True

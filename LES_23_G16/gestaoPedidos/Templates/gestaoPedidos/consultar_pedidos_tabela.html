@@ -106,13 +106,18 @@
             </button>    
         </td>
     </form>
+    <form method="post" action="{% url 'gestaoPedidos:generate_pdf' pedido_id=row.record.id %}">
+        {% csrf_token %}
+        <input type="hidden" value="{{ row.record.id }}" name="id">
+        <td>
+            <button type="submit" class="button is-success is-outlined" onclick="return confirmDownload();">
+                <span>Download PDF</span>
+            </button>    
+        </td>
+    </form>
     {% endif %}
 </tr>
 {% endif %}
-
-
-
-
 
 {% if row.cells.tipo == "Horário" %}
 <tr>
