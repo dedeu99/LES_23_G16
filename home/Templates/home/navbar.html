@@ -1,0 +1,106 @@
+{% load static %}
+{% load poll_extras %}
+<nav id="main-navbar" class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item logo" href="/">
+      <img src="{% static 'img/logo-navbar.png' %}" alt="Dia Aberto">
+    </a>
+
+    <a role="button" class="navbar-burger burger" onclick="onclick_burger(event)" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div class="navbar-menu">
+    <div class="navbar-start">
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Pedidos
+        </a>
+        <div class="navbar-dropdown">
+          {% if user and user.id|isFuncionario %}
+          <a href="{% url 'gestaoPedidos:consultar_pedidos' %}" class="navbar-item">Consultar todos os pedidos</a>
+          {% else %}
+          <a href="{% url 'gestaoPedidos:consultar_pedidos' %}" class="navbar-item">Consultar todos os pedidos</a>
+          <a href="{% url 'gestaoPedidos:criar_pedido_horario' %}" class="navbar-item">Criar Pedido de Horário</a>
+          <a href="{% url 'gestaoPedidos:criar_pedido_outro' %}" class="navbar-item">Criar Pedido Outro</a>
+          <a href="{% url 'gestaoPedidos:criar_pedido_uc' %}" class="navbar-item">Criar Pedido de Unidade Curricular</a>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if user and user.id|isFuncionario %}
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Estatisticas
+        </a>
+        <div class="navbar-dropdown">
+          <a href="#" class="navbar-item">Consultar todos os pedidos</a>
+          
+        </div>
+      </div>
+      {% endif %}
+    </div>  
+  </div>
+  <div class="navbar-end">
+    {% if user.is_authenticated %}
+    <div class="navbar-item">
+      Username: {{ user.username}}
+    </div>
+    <div class="navbar-item">
+      Nome: {{ user.id|get_nome}}
+    </div>
+    <div class="navbar-item">
+      Tipo:
+      {% if user.id|isFuncionario %}
+      Funcionário
+      {% else%}
+      Docente
+      {% endif %}
+    </div>
+    <div class="navbar-item">
+      <a href="{% url 'logout' %}">
+        <button type="button" class="button">
+          <span class="icon is-small">
+            <i class="mdi mdi-login-variant"></i>
+          </span>
+          <span>Sair</span>
+        </button>
+      </a>
+    </div>
+    {% else %}
+    <div class="navbar-item">
+      <a href="{% url 'logout' %}">
+        <button type="button" class="button is-primary">
+          <span><strong>Registar</strong></span>
+        </button>
+      </a>
+    </div>
+    <div class="navbar-item">
+      <a href="{% url 'login' %}">
+        <div type="button" class="button">
+          <span class="icon is-small">
+            <i class="mdi mdi-login-variant"></i>
+          </span>
+          <span>Entrar</span>
+        </div>
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</nav>
+
+
+{% block scripts %}
+
+<script type="text/javascript" src="{% static 'js/notificacoes.js' %}"></script>
+<script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+<script>
+
+</script>
+
+{% endblock scripts %}

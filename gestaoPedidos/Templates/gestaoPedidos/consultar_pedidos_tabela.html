@@ -1,0 +1,120 @@
+{% extends 'gestaoPedidos/bulma_table_details.html' %}
+{% load poll_extras %}
+{% block details_content %}
+
+<table>
+    <!--td>{{row.record.estadoid.id|get_descricao_estado}}</td!-->
+    <tbody>
+        <tr>
+            <td><strong>Assunto</strong></td>
+            <td>{{row.record.assunto}}</td>
+        </tr>
+        <tr>
+            <td><strong>Descricao:</strong></td>
+            <td>{{row.record.descricao}}</td>
+        </tr>
+    {%if row.cells.tipo == "Horário"%}
+        <tr>
+            <td><strong>Tipo de Alteracao:</strong></td>
+            <td>{{row.record.id|get_tipo_alteracao}}</td>
+        </tr>
+        <tr>
+            <td><strong>Unidade Curricular:</strong></td>
+            <td>{{row.record.id|get_unidade_curricular}}</td>
+        </tr>
+        <tr>
+        </tr>
+    {% endif %}
+       
+    {% if row.cells.tipo == "Outros" %}
+    <tr>
+
+        {% if user.id|isFuncionario %}
+        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:validar_pedido' pedido_id=row.record.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ row.record.id }}" name="id">
+            <td>
+                <button type="submit" class="button is-success is-outlined">
+                    <span>Validar</span>
+                </button>    
+            </td>
+        </form>
+        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:nao_validar_pedido' pedido_id=row.record.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ row.record.id }}" name="id">
+            <td>
+                <button type="submit" class="button is-success is-outlined">
+                    <span>Não Validar</span>
+                </button>    
+            </td>
+        </form>
+        {% else %}
+        <td><a href="{{ row.cells.tipo|get_alter_url_from_tipoPedido:row.record.id }}"><button  class="button is-info is-outlined"><span>Alterar</span></button></a></td>
+        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:apagar_pedido_outro'  %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ row.record.id }}" name="id">
+            <td>
+                <button type="submit" class="button is-success is-outlined">
+                    <span>Apagar</span>
+                </button>    
+            </td>
+        </form>
+        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:consultar_pedido_outro' row.record.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ row.record.id }}" name="id">
+            <td>
+                <button type="submit" class="button is-success is-outlined">
+                    <span>Consultar</span>
+                </button>    
+            </td>
+        </form>
+        {% endif %}
+    </tr>
+{% endif %}
+
+
+
+
+
+{% if row.cells.tipo == "Horário" %}
+<tr>
+    
+    {% if user.id|isFuncionario %}
+    <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:validar_pedido' pedido_id=row.record.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ row.record.id }}" name="id">
+        <td>
+            <button type="submit" class="button is-success is-outlined">
+                <span>Validar</span>
+            </button>    
+        </td>
+    </form>
+    <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:nao_validar_pedido' pedido_id=row.record.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ row.record.id }}" name="id">
+        <td>
+            <button type="submit" class="button is-success is-outlined">
+                <span>Não Validar</span>
+            </button>    
+        </td>
+    </form>
+    {% else %}
+    <td><a href="{{ row.cells.tipo|get_alter_url_from_tipoPedido:row.record.id }}"><button  class="button is-info is-outlined"><span>Alterar</span></button></a></td>
+    <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:apagar_pedido_horario'  %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ row.record.id }}" name="id">
+        <td>
+            <button type="submit" class="button is-success is-outlined">
+                <span>Apagar</span>
+            </button>    
+        </td>
+    </form>
+    {% endif %}
+</tr>
+{% endif %}
+
+
+    </tbody>
+</table>
+
+{% endblock details_content %}
