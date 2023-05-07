@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Pedido de UC - {{ pedido.assunto }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            color: #666;
+        }
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pedido de UC - {{ pedido.assunto }}</h1>
+    <p><strong>Data alvo:</strong> {{ pedido.dataAlvo }}</p>
+    <p><strong>Descrição:</strong> {{ pedido.descricao }}</p>
+    <p><strong>Docente:</strong> {{ pedido.docentepessoaid }}</p>
+    <p><strong>Estado:</strong> {{ pedido.estadoid }}</p>
+    <p><strong>Data de criação:</strong> {{ pedido.datecreation }}</p>
+    {% if pedido.datevalidation %}
+    <p><strong>Data de validação:</strong> {{ pedido.datevalidation }}</p>
+    {% endif %}
+
+    <h2>Pedido de UC detalhes</h2>
+    <p><strong>Motivo do pedido:</strong> {{ pedido.pedidouc.motivopedido }}</p>
+    <p><strong>Semestre lecionada:</strong> {{ pedido.pedidouc.semestrelecionada }}</p>
+    <p><strong>Nome UC:</strong> {{ pedido.pedidouc.nomeuc }}</p>
+    <p><strong>Ano lecionada:</strong> {{ pedido.pedidouc.anolecionada }}</p>
+    <p><strong>Horas semanais:</strong> {{ pedido.pedidouc.horas_semanais }}</p>
+    <p><strong>Horas período:</strong> {{ pedido.pedidouc.horas_periodo }}</p>
+    <p><strong>Data de início:</strong> {{ pedido.pedidouc.data_inicio }}</p>
+    <p><strong>Regente:</strong> {{ pedido.pedidouc.regente }}</p>
+    <p><strong>Data de fim:</strong> {{ pedido.pedidouc.data_fim }}</p>
+    <p><strong>Curso:</strong> {{ pedido.pedidouc.curso }}</p>
+
+    
+</body>
+</html>
