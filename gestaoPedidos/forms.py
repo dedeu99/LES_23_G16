@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Pedido, PedidoHorario, Estado, UC, PedidoUC, Outros
+from .models import Pedido, PedidoHorario, Estado, UC, PedidoUC, Outros, AnoLetivo
 from django.forms.fields import DateField
 
 class PedidoForm(ModelForm):
@@ -76,4 +76,33 @@ class PedidoOutroForm(ModelForm):
             'motivopedido': forms.TextInput(attrs={'class':'input'}),
             #'estadoid': forms.Select(attrs={'class':'input'}),
             #'dataAlvo':forms.SelectDateWidget(attrs={'class':'date'})
+        }
+
+    
+
+class EmailForm(forms.Form):
+    remetente = forms.CharField(max_length=150)
+    senha = forms.CharField(max_length=150, widget=forms.PasswordInput)
+    assunto = forms.CharField(max_length=100)
+    descricao = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["assunto"].widget.attrs.update({"class": "form-control", "placeholder": "Assunto"})
+        self.fields["descricao"].widget.attrs.update({"class": "form-control", "placeholder": "Descrição"})
+        self.fields["remetente"].widget.attrs.update({"class": "form-control", "placeholder": "Remetente"})
+        self.fields["senha"].widget.attrs.update({"class": "form-control", "placeholder": "Senha"})
+
+
+class ConfirmacaoForm(forms.Form):
+    mensagem = forms.CharField(label='Mensagem', widget=forms.Textarea)
+
+class AnoLetivoForm(forms.ModelForm):
+    class Meta:
+        model = AnoLetivo
+        fields = ['nome', 'data_inicial', 'data_final']
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'data_inicial': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'data_final': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }

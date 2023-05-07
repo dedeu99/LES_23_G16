@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import consultar_pedidos,criar_pedido_horario,alterar_pedido_horario,apagar_pedido_horario,criar_pedido_outro,consultar_pedido_outro,alterar_pedido_outros,apagar_pedido_outro,criar_pedido_uc,alterar_pedido_uc,apagar_pedido_uc, validar_pedido, nao_validar_pedido
+from .views import consultar_pedidos,criar_pedido_horario,alterar_pedido_horario,apagar_pedido_horario,criar_pedido_outro,consultar_pedido_outro,alterar_pedido_outros,apagar_pedido_outro,criar_pedido_uc,alterar_pedido_uc,apagar_pedido_uc, validar_pedido, nao_validar_pedido, enviar_email_cp, associar_pedido_func, desassociar_pedido_func, criar_ano_letivo, consultar_anos_letivos, excluir_ano_letivo
 
 app_name = 'gestaoPedidos'
 
@@ -32,5 +32,13 @@ urlpatterns = [
     path("alterar_pedido_uc",alterar_pedido_uc, name="alterar_pedido_uc"),
     path("apagar_pedido_uc",apagar_pedido_uc, name="apagar_pedido_uc"),
     path('validar_pedido/<int:pedido_id>/', validar_pedido, name='validar_pedido'),
-    path('nao_validar_pedido/<int:pedido_id>/', nao_validar_pedido, name='nao_validar_pedido')
+    path('nao_validar_pedido/<int:pedido_id>/', nao_validar_pedido, name='nao_validar_pedido'),
+    path("enviar_email_cp/<int:pedido_id>/", enviar_email_cp, name="enviar_email_cp"),
+    path('associar_pedido_func/<int:idfunc>/<int:pedido_id>/', associar_pedido_func, name='associar_pedido_func'),
+    path('desassociar_pedido_func/<int:pedido_id>/', desassociar_pedido_func, name='desassociar_pedido_func'),
+    path("criar_ano_letivo", criar_ano_letivo, name="criar_ano_letivo"),
+    path('consultar_anos_letivos/', consultar_anos_letivos, name='consultar_anos_letivos'),
+    path('excluir_ano_letivo/<int:ano_letivo_id>/', excluir_ano_letivo, name='excluir_ano_letivo')
+
+
 ]

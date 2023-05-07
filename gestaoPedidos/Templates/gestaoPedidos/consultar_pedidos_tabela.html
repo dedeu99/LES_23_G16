@@ -30,24 +30,46 @@
     <tr>
 
         {% if user.id|isFuncionario %}
-        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:validar_pedido' pedido_id=row.record.id %}" method="post">
+        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:validar_pedido'  pedido_id=row.record.id %}" method="post">
             {% csrf_token %}
             <input type="hidden" value="{{ row.record.id }}" name="id">
             <td>
                 <button type="submit" class="button is-success is-outlined">
-                    <span>Validar</span>
+                    <span>Concluido</span>
                 </button>    
             </td>
         </form>
-        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:nao_validar_pedido' pedido_id=row.record.id %}" method="post">
+        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:nao_validar_pedido'  pedido_id=row.record.id %}" method="post">
             {% csrf_token %}
             <input type="hidden" value="{{ row.record.id }}" name="id">
             <td>
                 <button type="submit" class="button is-success is-outlined">
-                    <span>Não Validar</span>
+                    <span>Em Analise</span>
                 </button>    
             </td>
         </form>
+        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:associar_pedido_func' idfunc=user.id pedido_id=row.record.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ row.record.id }}" name="pedido_id">
+            <input type="hidden" value="{{ user.id }}" name="idfunc">
+            <td>
+                <button type="submit" class="button is-success is-outlined">
+                    <span>Associar</span>
+                </button>    
+            </td>
+        </form>
+        <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:desassociar_pedido_func' pedido_id=row.record.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ row.record.id }}" name="pedido_id">
+            <input type="hidden" value="{{ user.id }}" name="idfunc">
+            <td>
+                <button type="submit" class="button is-success is-outlined">
+                    <span>Desassociar</span>
+                </button>    
+            </td>
+        </form>
+        
+        
         {% else %}
         <td><a href="{{ row.cells.tipo|get_alter_url_from_tipoPedido:row.record.id }}"><button  class="button is-info is-outlined"><span>Alterar</span></button></a></td>
         <form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:apagar_pedido_outro'  %}" method="post">
@@ -85,7 +107,7 @@
         <input type="hidden" value="{{ row.record.id }}" name="id">
         <td>
             <button type="submit" class="button is-success is-outlined">
-                <span>Validar</span>
+                <span>Concluido</span>
             </button>    
         </td>
     </form>
@@ -94,7 +116,7 @@
         <input type="hidden" value="{{ row.record.id }}" name="id">
         <td>
             <button type="submit" class="button is-success is-outlined">
-                <span>Não Validar</span>
+                <span>Em Analise</span>
             </button>    
         </td>
     </form>
@@ -112,6 +134,16 @@
     {% endif %}
 </tr>
 {% endif %}
+
+<form class="js-modal-trigger" data-target="msg" action="{% url 'gestaoPedidos:enviar_email_cp' pedido_id=row.record.id  %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" value="{{ row.record.id }}" name="id">
+    <td>
+        <button type="submit" class="button is-success is-outlined">
+            <span>Contactar Conselho Pedagógico</span>
+        </button>    
+    </td>
+</form>
 
 
     </tbody>

@@ -76,6 +76,7 @@ class Estadouc(models.Model):
 class Funcionario(models.Model):
     nfunc = models.IntegerField(db_column='NFunc')  # Field name made lowercase.
     pessoaid = models.OneToOneField('Pessoa', models.DO_NOTHING, db_column='PessoaID', primary_key=True)  # Field name made lowercase.
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
     class Meta:
         managed = True
@@ -238,3 +239,13 @@ class CursoUc(models.Model):
         managed = True
         db_table = 'curso_uc'
         unique_together = (('cursoid', 'ucid'))
+        
+
+class AnoLetivo(models.Model):
+    nome = models.CharField(db_column='Nome', max_length=255)
+    data_inicial = models.DateField(db_column='DataInicial')
+    data_final = models.DateField(db_column='DataFinal')
+
+    class Meta:
+        managed = True
+        db_table = 'ano_letivo'

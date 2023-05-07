@@ -24,7 +24,7 @@
                                 <p style="color: #ff0000;">{{field.label}} - {{ error }}</p>
                             {% endfor %}
                         {% endfor %}
-                        {% for field in outroform %}
+                        {% for field in outroForm %}
                             {% for error in field.errors %}
                                 <p style="color: #ff0000;">{{field.label}} - {{ error }}</p>
                             {% endfor %}
@@ -213,6 +213,7 @@
 
         </form>
     </div>
+
 
 {% endblock content %}
 {% block scripts %}

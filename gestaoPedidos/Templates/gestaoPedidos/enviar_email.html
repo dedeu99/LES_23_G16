@@ -1,0 +1,98 @@
+{% extends 'home/index.html' %}
+
+{% block content %}
+
+<style>
+  /* Container for the form */
+  .form-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Style for the form heading */
+  .form-heading {
+    margin-bottom: 20px;
+    font-size: 28px;
+    text-align: center;
+  }
+
+  /* Style for the form labels */
+  .form-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  /* Style for the form inputs */
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #333;
+  }
+
+  /* Style for the form textarea */
+  .form-textarea {
+    height: 150px;
+  }
+
+  /* Style for the form button */
+  .form-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  /* Hover state for the form button */
+  .form-button:hover {
+    background-color: #0069d9;
+  }
+
+  /* Style for the form button container */
+  .form-button-container {
+    text-align: center;
+  }
+
+</style>
+<div class="form-container">
+  <h2 class="form-heading">Enviar Email</h2>
+  <form method="POST" action="{% url 'gestaoPedidos:enviar_email_cp' pedido.id %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="{{ form.assunto.id_for_label }}" class="form-label">Assunto:</label>
+      {{ form.assunto }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.descricao.id_for_label }}" class="form-label">Descrição:</label>
+      {{ form.descricao }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.assunto.id_for_label }}" class="form-label">Email:</label>
+      {{ form.remetente }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.descricao.id_for_label }}" class="form-label">Senha:</label>
+      {{ form.senha }}
+  </div>
+  
+    <div class="form-button-container">
+      <button type="submit" class="form-button">Enviar</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

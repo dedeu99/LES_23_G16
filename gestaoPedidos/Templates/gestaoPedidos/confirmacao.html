@@ -1,0 +1,50 @@
+
+
+{% extends 'home/index.html' %}
+
+{% block content %}
+
+  <style>
+    form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: .5rem;
+}
+
+form textarea {
+  height: 150px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+.my-4 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+  </style>
+
+  <div class="container">
+    <h1 class="my-4">Confirmação de Pedido</h1>
+    <form method="post" class="my-4">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

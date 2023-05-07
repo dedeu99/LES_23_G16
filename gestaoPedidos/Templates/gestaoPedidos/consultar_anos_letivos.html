@@ -1,0 +1,86 @@
+{% extends 'home/index.html' %}
+
+{% block content %}
+<style>
+  /* Define a largura máxima da tabela */
+  .table-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* Define o estilo das células do cabeçalho */
+  th {
+    background-color: #ddd;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+  }
+
+  /* Define o estilo das células dos dados */
+  td {
+    padding: 10px;
+    text-align: center;
+  }
+
+  /* Define o estilo das linhas ímpares */
+  tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+
+  /* Define o estilo dos botões */
+  .btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  /* Define o estilo dos botões de exclusão */
+  .btn-danger {
+    background-color: #f44336;
+  }
+
+  /* Define o estilo dos botões de edição */
+  .btn-warning {
+    background-color: #ff9800;
+  }
+</style>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Data Inicial</th>
+        <th>Data Final</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ano_letivo in anos_letivos %}
+        <tr>
+          <td>{{ ano_letivo.id }}</td>
+          <td>{{ ano_letivo.nome }}</td>
+          <td>{{ ano_letivo.data_inicial }}</td>
+          <td>{{ ano_letivo.data_final }}</td>
+          <td>
+            <a href="{% url 'gestaoPedidos:excluir_ano_letivo' ano_letivo.id %}" class="btn btn-danger">Excluir</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">Não há anos letivos cadastrados.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
